@@ -1,64 +1,125 @@
-import Image from 'next/image'
-import { MdGroups } from "react-icons/md";
-import { PiCircleDashedBold } from "react-icons/pi";
-import { BiSolidMessageAdd } from "react-icons/bi";
-import { SlOptionsVertical } from "react-icons/sl";
-import { AiOutlineSearch } from "react-icons/ai";
-import { IoFilter } from "react-icons/io5";
+import Chat from '@/components/Chat';
+import Header from '@/components/Header';
+import SearchBar from '@/components/SearchBar';
+import Image from 'next/image';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { SlOptionsVertical } from 'react-icons/sl';
+
+const users = [
+  {
+    id: 1,
+    name: 'Roland',
+    message: 'how are you? i was thinking of seeing you today... are you chance?',
+    read: false,
+    time: 1695988799,
+    img: 'roland.jpg'
+  },
+  {
+    id: 2,
+    name: 'Sam Okes',
+    message: 'how are you? i was thinking of seeing you today... are you chance?',
+    read: false,
+    time: 8635988799,
+    img: 'okes.jpeg'
+  },
+  {
+    id: 3,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  },
+  {
+    id: 4,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  },
+  {
+    id: 5,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  },
+  {
+    id: 6,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  },
+  {
+    id: 7,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  },
+  {
+    id: 8,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  },
+  {
+    id: 9,
+    name: 'Titus',
+    message: 'You dey come today?',
+    read: true,
+    time: 1835999799,
+    img: 'titus.jpeg'
+  }
+]
 
 export default function Home() {
   return (
-    <main className='h-[calc(100vh-50px)] md:h-screen w-full'>
+    <main className='h-full md:h-screen w-full bg-lighter-bg lg:max-h-[95%] lg:max-w-[98%]'>
       <div className='flex items-start h-full'>
       {/* contact area area */}
-        <section className='border-r border-r-slate-800 w-full h-full max-w-md'>
+        <section className='border-r border-r-slate-800 w-full h-full md:w-1/2 lg:max-w-[470px]'>
           {/* header */}
-          <header>
-            <div className='bg-light-bg flex items-center py-2 px-4'>
-              <div className='w-full'>
-                <div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
-                  <Image src='/profile.jpg' className='fw-full h-full object-cover' width={40} height={40} alt='profile image' />
-                </div>
-              </div>
-              <div className='w-full flex items-center justify-between'>
-                <button className='p-2'>
-                  <MdGroups className='text-tab-icon w-6 h-6' />
-                </button>
-                <button className='p-2 relative'>
-                  <PiCircleDashedBold className='text-tab-icon w-6 h-6' />
-                  <span className='w-[12px] h-[12px] rounded-full top-[35%] left-[35%] bg-tab-icon absolute'></span>
-                  {/* <div className='  rounded-full'> */}
-                    <span className='absolute top-[25%] right-[20%] border-[3px] border-light-bg w-[5px] h-[5px] bg-primary rounded-full p-[2px] inline-block'></span>
-                  {/* </div> */}
-                </button>
-                <button className='p-2'>
-                  <BiSolidMessageAdd className='text-tab-icon w-6 h-6' />
-                </button>
-                <button className='p-2'>
-                  <SlOptionsVertical className='text-tab-icon w-6 h-4' />
-                </button>
-              </div>
-            </div>
-            <div className='flex items-center justify-between p-2'>
-              <div className='rounded-md bg-light-bg flex items-center pl-3 w-full p-2'>
-                <AiOutlineSearch className='text-light-txt w-5 h-5' />
-                <p className='text-light-txt pl-10 pr-8 text-sm'>Search or start new chat</p>
-                <input type="text" className='w-full h-full hidden' />
-              </div>
-              <div className='ml-2'>
-              <IoFilter className='text-light-txt w-5 h-5' />
-              </div>
-            </div>
-          </header>
+         <Header />
+         <SearchBar />
+          <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden'>
+            {
+              users.map((user, idx) => (
+                <Chat key={idx} {...user} />
+              ))
+            }
+          </main>
         </section>
       {/* chat area */}
         <section className='w-full h-full'>
-          <div>
-            chat mesaages
+            <div>
+            <div className='flex items-center gap-4 p-1 sm:pl-4 pr-2 bg-light-bg'>
+              <div>
+                  <div className='rounded-full flex items-center justify-center w-[43px] h-[43px] overflow-hidden'>
+                  <Image src='/roland.jpg' className='w-full h-full object-cover' width={49} height={49} alt='profile image' />
+                  </div>
+              </div>
+              <div className='w-full flex items-center justify-between'>
+              <div className='flex flex-col w-full'>
+                  <span className='capitalize text-white-txt'>Roland Odenore</span>
+                  <span className='text-xs font-light text-read-msg'>last seen today at 09:23</span>
+              </div>
+              <div className='flex items-center'>
+              <button title='Search...' className='p-3'><AiOutlineSearch className='text-light-txt w-6 h-6' /></button>
+              <button title='Menu' className='p-3'><SlOptionsVertical className='text-tab-icon w-6 h-4' /></button>
+              </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
-
     </main>
   )
 }
