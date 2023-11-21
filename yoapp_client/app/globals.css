@@ -16,6 +16,14 @@ html {
     height: 100%;
 }
 
+.bg-element {
+  background-image: url('../public/background.jpg'), linear-gradient(#02314d94,#02314d94);  
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-blend-mode: overlay;
+}
+
 ::-webkit-scrollbar {
 	width: 10px;    
 	z-index: 10;

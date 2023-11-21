@@ -27,6 +27,7 @@ const config: Config = {
       colors: {
         'tab-icon': '#aebac1',
         'primary': '#00A884',
+        'primary-two': '#176b5b',
         'light-bg': '#202c33',
         'lighter-bg': '#202c3340',
         'light-txt': '#8696A0',
