@@ -28,9 +28,9 @@ const SearchBar = () => {
         <button onClick={changeInput}>
           {
             showInput ? 
-            <HiArrowLeft className='text-primary w-5 h-5' />
+            <HiArrowLeft className='text-primary w-5 h-5 duration-200 animate-rotateLeft' />
             :
-            <AiOutlineSearch className='text-light-txt w-5 h-5' />
+            <AiOutlineSearch className='text-light-txt w-5 h-5 duration-200 animate-rotateLeft2' />
             }
         </button>
         {

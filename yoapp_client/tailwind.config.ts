@@ -15,6 +15,37 @@ const config: Config = {
       'xl': '1240px'
     },
     extend: {
+      animation: {
+        'rotateLeft': 'rotateLeft .2s linear',
+        'rotateLeft2': 'rotateLeft2 .2s linear',
+        'moveRight': 'moveRight .2s linear'
+      },
+      keyframes: {
+        rotateLeft: {
+          '0%': {
+            transform: 'rotate(-90deg)'
+          },
+          '100%': {
+            transform: 'rotate(0deg)'
+          }
+        },
+        rotateLeft2: {
+          '0%': {
+            transform: 'rotate(90deg)'
+          },
+          '100%': {
+            transform: 'rotate(0deg)'
+          }
+        },
+        moveRight: {
+          '0%': {
+            transform: 'translateX(-100%)'
+          },
+          '100%': {
+            transform: 'translateX(0%)'
+          }
+        }
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

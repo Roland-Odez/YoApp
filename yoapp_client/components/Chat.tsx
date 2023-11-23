@@ -1,16 +1,10 @@
+import { User } from '@/types/type';
 import Image from 'next/image'
 import Link from 'next/link';
 import React from 'react'
 import { BsCheck2, BsCheck2All } from "react-icons/bs";
 
-interface User {
-    id: Number,
-    name: String,
-    message: String,
-    read: Boolean,
-    time: Number,
-    img: String
-}
+
 
 const Chat = ({id, name, message, read, time, img}: User) => {
 

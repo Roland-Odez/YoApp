@@ -1,3 +1,5 @@
+'use client'
+import {useState} from 'react'
 import Chat from '@/components/Chat';
 import Header from '@/components/Header';
 import Keyboard from '@/components/Keyboard';
@@ -8,6 +10,9 @@ import Link from 'next/link';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { SlOptionsVertical } from 'react-icons/sl';
 import RecieveMessage from '@/components/RecieveMessage';
+import GroupTab from '@/components/GroupTab';
+import StatusTab from '@/components/StatusTab';
+import NewChat from '@/components/NewChat';
 
 const users = [
   {
@@ -44,14 +49,30 @@ export default function Home({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
 console.log(searchParams)
+const [showGroup, setShowGroup] = useState<boolean>(false)
+const [showStatus, setShowStatus] = useState<boolean>(false)
+const [showNewChat, setShowNewChat] = useState<boolean>(false)
+
+const handleShowGroup = () => {
+  setShowGroup(val => !val );
+}
+
+const handleShowStatus = () => {
+  setShowStatus(val => !val );
+}
+
+const handleShowNewChat = () => {
+  setShowNewChat(val => !val );
+  console.log('runnner')
+}
 
   return (
     <main className='h-full md:h-screen w-full bg-lighter-bg lg:max-h-[95%] lg:max-w-[98%]'>
       <div className='flex items-start h-full'>
       {/* contact area area */}
-        <section className='border-r border-r-[rgba(134,150,160,0.27)] w-full h-full md:w-1/2 lg:max-w-[470px]'>
+        <section className='relative border-r border-r-[rgba(134,150,160,0.27)] w-full h-full md:w-1/2 lg:max-w-[470px]'>
           {/* header */}
-         <Header />
+         <Header handleShowStatus={handleShowStatus} showGroup={showGroup} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
          <SearchBar />
           <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             {
@@ -60,6 +81,9 @@ console.log(searchParams)
               ))
             }
           </main>
+          {showGroup && <GroupTab showGroup={showGroup} handleShowGroup={handleShowGroup} />}
+          {showNewChat && <NewChat handleShowNewChat={handleShowNewChat} />}
+          {showStatus && <StatusTab handleShowStatus={handleShowStatus} />}
         </section>
       {/* chat area */}
         <section className='w-full h-full'>

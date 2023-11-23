@@ -1,9 +1,7 @@
+import { Message } from '@/types/type'
 import React from 'react'
 import { BsCheck2, BsCheck2All } from 'react-icons/bs'
 
-type Message = {
-    message: String
-}
 const RecieveMessage = ({message}: Message) => {
     const read = false
     const msgStyle = {

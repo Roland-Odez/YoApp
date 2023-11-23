@@ -1,10 +1,7 @@
+import { Message } from '@/types/type';
 import React from 'react'
 import { BsCheck2, BsCheck2All } from 'react-icons/bs'
 import { IoTriangle } from "react-icons/io5";
-
-type Message = {
-    message: String
-}
 
 const Message = ({message}: Message) => {
     const read = false
