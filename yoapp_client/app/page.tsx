@@ -1,5 +1,5 @@
 'use client'
-import {useState} from 'react'
+import {useState, useEffect, EventHandler, MouseEventHandler, MouseEvent} from 'react'
 import Chat from '@/components/Chat';
 import Header from '@/components/Header';
 import Keyboard from '@/components/Keyboard';
@@ -48,11 +48,15 @@ export default function Home({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-console.log(searchParams)
 const [showGroup, setShowGroup] = useState<boolean>(false)
+const [showOptions, setOptions] = useState<boolean>(false)
 const [showStatus, setShowStatus] = useState<boolean>(false)
 const [showNewChat, setShowNewChat] = useState<boolean>(false)
 
+const handleShowOptions = () => {
+  setOptions(val => !val);
+  console.log('clicked.............')
+}
 const handleShowGroup = () => {
   setShowGroup(val => !val );
 }
@@ -63,8 +67,20 @@ const handleShowStatus = () => {
 
 const handleShowNewChat = () => {
   setShowNewChat(val => !val );
-  console.log('runnner')
 }
+
+useEffect(() => {
+  const eventCallBack =  (ele: any) => {
+    const option = document.querySelector('#option')
+    if(!option?.contains(ele.target)){
+      setOptions(false);
+      console.log('use effect clciked')
+    }
+  }
+  document.body.addEventListener('click', eventCallBack)
+
+  return ()=> document.body.removeEventListener('click', eventCallBack)
+}, [showOptions])
 
   return (
     <main className='h-full md:h-screen w-full bg-lighter-bg lg:max-h-[95%] lg:max-w-[98%]'>
@@ -72,7 +88,7 @@ const handleShowNewChat = () => {
       {/* contact area area */}
         <section className='relative border-r border-r-[rgba(134,150,160,0.27)] w-full h-full md:w-1/2 lg:max-w-[470px]'>
           {/* header */}
-         <Header handleShowStatus={handleShowStatus} showGroup={showGroup} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
+         <Header handleShowOptions={handleShowOptions} showOptions={showOptions} handleShowStatus={handleShowStatus} showGroup={showGroup} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
          <SearchBar />
           <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             {
@@ -81,9 +97,9 @@ const handleShowNewChat = () => {
               ))
             }
           </main>
-          {showGroup && <GroupTab showGroup={showGroup} handleShowGroup={handleShowGroup} />}
-          {showNewChat && <NewChat handleShowNewChat={handleShowNewChat} />}
-          {showStatus && <StatusTab handleShowStatus={handleShowStatus} />}
+          <GroupTab showGroup={showGroup} handleShowGroup={handleShowGroup} />
+          <NewChat showNewChat={showNewChat} handleShowNewChat={handleShowNewChat} />
+          <StatusTab showStatus={showStatus} handleShowStatus={handleShowStatus} />
         </section>
       {/* chat area */}
         <section className='w-full h-full'>

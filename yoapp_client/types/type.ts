@@ -1,14 +1,18 @@
 export type HeadState = {
     showGroup: boolean,
+    showOptions?: boolean,
     handleShowGroup?: ()=> void,
     handleShowStatus?: ()=> void,
-    handleShowNewChat?: ()=> void
+    handleShowNewChat?: ()=> void,
+    handleShowOptions?: ()=> void
 }
 export type StatusState = {
+    showStatus: boolean,
     handleShowStatus(): void
 }
 
 export type NewChatState = {
+    showNewChat: boolean,
     handleShowNewChat: () => void
 }
 

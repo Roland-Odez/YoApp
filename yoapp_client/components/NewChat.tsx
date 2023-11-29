@@ -34,9 +34,9 @@ const users = [
     }
   ]
 
-const NewChat = ({handleShowNewChat}: NewChatState) => {
+const NewChat = ({showNewChat,handleShowNewChat}: NewChatState) => {
   return (
-    <div className='absolute top-0 left-0 w-full h-full bg-dark-bg duration-200 animate-moveRight'>
+    <div style={{transform: `${showNewChat ? 'translateX(0%)': 'translateX(-110%)' }`}} className='absolute top-0 left-0 w-full h-full bg-dark-bg duration-300 ease-in-out translate-x-[-110%]'>
         <header className='bg-light-bg pt-14'>
             <div className='flex items-center gap-8 pl-4 pb-4'>
                 <button onClick={handleShowNewChat} className='outline-none'>

@@ -18,9 +18,22 @@ const config: Config = {
       animation: {
         'rotateLeft': 'rotateLeft .2s linear',
         'rotateLeft2': 'rotateLeft2 .2s linear',
-        'moveRight': 'moveRight .2s linear'
+        'moveRight': 'moveRight .2s linear',
+        'appear': 'appear 2s easeInOut'
       },
       keyframes: {
+        appear: {
+          '0%': {
+            opacity: '0',
+            height: '0px',
+            width: '0px'
+          },
+          '100%': {
+            opacity: '1',
+            height: '132px',
+            width: '220px'
+          },
+        },
         rotateLeft: {
           '0%': {
             transform: 'rotate(-90deg)'
@@ -65,6 +78,9 @@ const config: Config = {
         'white-txt': '#E9EDEF',
         'unread-msg': '#D1D7DB',
         'read-msg': '#8696A0'
+      },
+      boxShadow: {
+        'dark-tab': ''
       }
     },
   },
