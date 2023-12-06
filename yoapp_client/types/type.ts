@@ -1,6 +1,7 @@
 export type HeadState = {
     showGroup: boolean,
     showOptions?: boolean,
+    handleShowProfile?: ()=> void,
     handleShowGroup?: ()=> void,
     handleShowStatus?: ()=> void,
     handleShowNewChat?: ()=> void,
@@ -9,6 +10,16 @@ export type HeadState = {
 export type StatusState = {
     showStatus: boolean,
     handleShowStatus(): void
+}
+
+export type ProfileState = {
+    showProfile: boolean,
+    handleShowProfile(): void
+}
+
+export type ProfileDetailState = {
+    showProfileDetails: boolean,
+    handleShowProfileDetails(): void
 }
 
 export type NewChatState = {
@@ -26,5 +37,6 @@ export interface User {
     message: String,
     read: Boolean,
     time: Number,
-    img: String
+    img: String,
+    handleShowChatArea: ()=> void
 }

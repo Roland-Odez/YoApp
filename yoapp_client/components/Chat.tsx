@@ -6,7 +6,7 @@ import { BsCheck2, BsCheck2All } from "react-icons/bs";
 
 
 
-const Chat = ({id, name, message, read, time, img}: User) => {
+const Chat = ({id, name, message, read, time, img, handleShowChatArea}: User) => {
 
     const msgStyle = {
         color: read ? '#8696A0' : '#D1D7DB'
@@ -16,7 +16,7 @@ const Chat = ({id, name, message, read, time, img}: User) => {
     }
 
   return (
-    <Link href={`/?id=${id}`} className='flex items-center gap-4 pl-2 sm:pl-4 pr-2 hover:bg-light-bg duration-150'>
+    <Link href={`/?id=${id}`} onClick={handleShowChatArea} className='flex items-center gap-4 pl-2 sm:pl-4 pr-2 hover:bg-light-bg duration-150'>
         <div>
             <div className='rounded-full flex items-center justify-center w-[43px] h-[43px] lg:w-[49px] lg:h-[49px] overflow-hidden'>
             <Image src={`/${img}`} className='w-full h-full object-cover' width={49} height={49} alt='profile image' />

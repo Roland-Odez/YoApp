@@ -18,7 +18,8 @@ const config: Config = {
       animation: {
         'rotateLeft': 'rotateLeft .2s linear',
         'rotateLeft2': 'rotateLeft2 .2s linear',
-        'moveRight': 'moveRight .2s linear',
+        'scaleImageUp': 'scaleImageUp .4s linear',
+        'moveFieldDown': 'moveFieldDown .4s linear',
         'appear': 'appear 2s easeInOut'
       },
       keyframes: {
@@ -50,12 +51,23 @@ const config: Config = {
             transform: 'rotate(0deg)'
           }
         },
-        moveRight: {
+        scaleImageUp: {
           '0%': {
-            transform: 'translateX(-100%)'
+            transform: 'scale(0)'   
           },
           '100%': {
-            transform: 'translateX(0%)'
+            transform: 'scale(1)'
+            
+          }
+        },
+        moveFieldDown: {
+          '0%': {
+            transform: 'translateY(-100px)',
+            opacity: '0'
+          },
+          '100%': {
+            transform: 'translateY(0px)',
+            opacity: '1'
           }
         }
       },
@@ -72,12 +84,14 @@ const config: Config = {
         'tab-icon': '#aebac1',
         'primary': '#00A884',
         'primary-two': '#176b5b',
+        'primary-three': '#008069',
         'light-bg': '#202c33',
         'lighter-bg': '#202c3340',
         'light-txt': '#8696A0',
         'white-txt': '#E9EDEF',
         'unread-msg': '#D1D7DB',
-        'read-msg': '#8696A0'
+        'read-msg': '#8696A0',
+        'secondary': '#f15c6d'
       },
       boxShadow: {
         'dark-tab': ''
