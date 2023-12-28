@@ -1,11 +1,7 @@
 'use client'
 import { ProfileState } from '@/types/type'
 import Image from 'next/image'
-import React, {useState, useEffect} from 'react'
-import { FaCheck } from "react-icons/fa6";
 import { HiArrowLeft } from 'react-icons/hi2'
-import { FaPen } from "react-icons/fa";
-import { FaRegLaugh } from "react-icons/fa";
 import ProfileField from './ProfileField';
 
 
@@ -39,7 +35,7 @@ const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
           </section>
         }
     </main>
-</div>
+    </div>
   )
 }
 

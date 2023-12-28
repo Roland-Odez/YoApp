@@ -1,0 +1,34 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "compile": "tsc --watch",
+    "start": "nodemon ./dist/src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@apollo/server": "^4.9.5",
+    "@axelspringer/graphql-google-pubsub": "^2.1.0",
+    "@google-cloud/pubsub": "^4.1.0",
+    "@graphql-tools/schema": "^10.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "graphql": "^16.8.1",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-ws": "^5.14.3",
+    "graphql-yoga": "^5.1.0",
+    "http": "^0.0.1-security",
+    "mongodb": "^6.3.0",
+    "ws": "^8.15.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.3",
+    "typescript": "^5.3.3"
+  }
+}
