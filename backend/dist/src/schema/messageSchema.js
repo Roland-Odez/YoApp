@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-const userSchema = new Schema({
+const messageSchema = new Schema({
     sender: { type: Schema.Types.ObjectId, ref: 'User' },
     username: { type: String, required: true },
     reciever: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -7,4 +7,4 @@ const userSchema = new Schema({
     timeStamp: { type: String },
     read: { type: Boolean }
 });
-export const userModel = model('User', userSchema);
+export const messageModel = model('Message', messageSchema);

@@ -16,6 +16,7 @@
     "@axelspringer/graphql-google-pubsub": "^2.1.0",
     "@google-cloud/pubsub": "^4.1.0",
     "@graphql-tools/schema": "^10.0.2",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -24,11 +25,16 @@
     "graphql-ws": "^5.14.3",
     "graphql-yoga": "^5.1.0",
     "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
+    "validator": "^13.11.0",
     "ws": "^8.15.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.3",
+    "@types/validator": "^13.11.7",
     "typescript": "^5.3.3"
   }
 }

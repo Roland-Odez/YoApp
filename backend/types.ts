@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 export interface User {
-    name: String
+    email: String
     username: String
     password: String
     about?: String

@@ -1,7 +1,6 @@
 export const typeDefs = `#graphql
 
   input MessageInput {
-    id: ID
     sender: ID!
     reciever: ID!
     message: String!
@@ -9,9 +8,21 @@ export const typeDefs = `#graphql
     read: Boolean
   }
 
+  input SignupInput {
+    email: String!
+    username: String!
+    password: String!
+    img: String!
+  }
+
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
   type User {
     id: ID!
-    name: String!
+    email: String!
     username: String!
     password: String!
     about: String
@@ -39,7 +50,21 @@ export const typeDefs = `#graphql
     messageAdded: Message
   }
 
+  union SignUpResult = SuccessPayload | FailedPayload
+  union LoginPayload = SuccessPayload | FailedPayload
+
+  type SuccessPayload {
+    token: String
+    user: User
+  }
+
+  type FailedPayload {
+    message: String
+  }
+
   type Mutation {
-    createMessage(input: MessageInput!): Message
+    createMessage(messageInput: MessageInput!): Message
+    signUp(signupInput: SignupInput!): SignUpResult
+    logIn(loginInput: LoginInput!): LoginPayload
   }
 `;

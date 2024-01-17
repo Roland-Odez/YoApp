@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Message } from '../../types';
 
-const userSchema = new Schema<Message>({
+const messageSchema = new Schema<Message>({
     sender: {type: Schema.Types.ObjectId, ref: 'User'},
     username: { type: String, required: true },
     reciever: {type: Schema.Types.ObjectId, ref: 'User'},
@@ -10,4 +10,4 @@ const userSchema = new Schema<Message>({
     read: {type: Boolean}
 });
 
-export const userModel =  model('User', userSchema);
+export const messageModel =  model('Message', messageSchema);
