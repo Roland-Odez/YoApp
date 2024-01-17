@@ -1,4 +1,4 @@
-import {createPubSub} from 'graphql-yoga';
+import {createPubSub} from 'graphql-yoga'
 import {message, users} from '../data.js'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
