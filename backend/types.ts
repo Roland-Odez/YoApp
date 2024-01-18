@@ -25,3 +25,8 @@ export type SignUpInput =
     password: string, 
     img: string
 }
+export type LoginInput = 
+{
+    email: string, 
+    password: string, 
+}

@@ -12,9 +12,6 @@ export default function Login() {
       <div className='bg-dark-bg max-w-[450px] w-full'>
         <main className=' overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             <section className='my-7 flex items-center justify-center'>
-                {/* <div className='w-[170px] h-[170px] xl:w-[200px] xl:h-[200px] rounded-full overflow-hidden'>
-                  <Image src='/profile.jpg' className='w-full h-full object-cover' width={200} height={200} alt='profile image' />
-                </div> */}
                 <h1 className='text-white-txt text-xl font-bold' style={amaranth.style}>yoApp</h1>
             </section>
             <section className='animate-moveFieldDown px-7 py-3 duration-[300ms] delay-1000 opacity-100'>

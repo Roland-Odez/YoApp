@@ -45,17 +45,16 @@ export const resolvers = {
                     throw new Error('invalid password');
                 if (!isValidImg)
                     throw new Error('invalid image');
-                // const user = await userModel.findOne({email})
-                const user = users.find((user) => user.email === email);
+                await client.connect();
+                const database = client.db("yoapp");
+                const usersDB = database.collection("users");
+                const user = await usersDB.findOne({ email });
                 if (user)
                     throw new Error('user already exist');
                 const saltRounds = 10;
                 const salt = await bcrypt.genSalt(saltRounds);
                 const hash = await bcrypt.hash(password, salt);
                 const date = new Date().getTime();
-                await client.connect();
-                const database = client.db("yoapp");
-                const usersDB = database.collection("users");
                 const newUser = new userModel({
                     username,
                     email,
@@ -85,7 +84,7 @@ export const resolvers = {
                 };
             }
         },
-        logIn: async (_, { loginInput }, { token }) => {
+        logIn: async (_, { loginInput }) => {
             try {
                 const { email, password } = loginInput;
                 const { isValidEmail, isValidPassword } = validateCredentials(loginInput);
@@ -118,7 +117,6 @@ export const resolvers = {
     },
     SignUpResult: {
         __resolveType(obj, contextValue, info) {
-            console.log(obj);
             if (obj.user)
                 return 'SuccessPayload';
             if (obj.message)
@@ -128,7 +126,6 @@ export const resolvers = {
     },
     LoginResult: {
         __resolveType(obj, contextValue, info) {
-            console.log(obj);
             if (obj.user)
                 return 'SuccessPayload';
             if (obj.message)

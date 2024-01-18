@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import { validateCredentials } from '../utils/Validators.js';
 import { userModel } from '../schema/userShema.js';
 import { client } from '../db.js';
-import { SignUpInput } from '../../types.js';
+import { LoginInput, SignUpInput } from '../../types.js';
 
 
   const pubsub = createPubSub()
@@ -65,18 +65,16 @@ export const resolvers = {
 
         if(!isValidImg) throw new Error('invalid image')
 
-        // const user = await userModel.findOne({email})
-        const user = users.find((user) => user.email === email)
-
+        await client.connect();
+        const database = client.db("yoapp");
+        const usersDB = database.collection("users");
+        const user = await usersDB.findOne({email})
         if(user!) throw new Error('user already exist')
         const saltRounds = 10
         const salt = await bcrypt.genSalt(saltRounds);
         const hash = await bcrypt.hash(password, salt)
         const date = new Date().getTime()
         
-        await client.connect();
-        const database = client.db("yoapp");
-        const usersDB = database.collection("users");
         const newUser = new userModel({
           username,
           email,
@@ -107,7 +105,7 @@ export const resolvers = {
 
 
       },
-      logIn: async (_: any, {loginInput}: any, {token}: any) => {
+      logIn: async (_: any, {loginInput}: {loginInput: LoginInput}) => {
         try {
           const { email, password } = loginInput;
 
@@ -144,8 +142,7 @@ export const resolvers = {
       }
     },
     SignUpResult: {
-      __resolveType(obj: { user: any; message: any; }, contextValue: any, info: any){
-        console.log(obj)
+      __resolveType(obj: { user: any; message: string; }, contextValue: any, info: any){
         if(obj.user) return 'SuccessPayload'
         if(obj.message) return 'FailedPayload'
 
@@ -153,8 +150,8 @@ export const resolvers = {
       }
     },
     LoginResult: {
-      __resolveType(obj: { user: any; message: any; }, contextValue: any, info: any){
-        console.log(obj)
+      __resolveType(obj: { user: any; message: string; }, contextValue: any, info: any){
+
         if(obj.user) return 'SuccessPayload'
         if(obj.message) return 'FailedPayload'
 
