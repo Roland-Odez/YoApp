@@ -17,3 +17,11 @@ export interface Message {
     timeStamp: String
     read: Boolean
 }
+
+export type SignUpInput = 
+{
+    username: string, 
+    email: string, 
+    password: string, 
+    img: string
+}

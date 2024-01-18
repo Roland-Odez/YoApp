@@ -52,7 +52,7 @@ export const typeDefs = `#graphql
   }
 
   union SignUpResult = SuccessPayload | FailedPayload
-  union LoginPayload = SuccessPayload | FailedPayload
+  union LoginResult = SuccessPayload | FailedPayload
 
   type SuccessPayload {
     token: String
@@ -66,6 +66,6 @@ export const typeDefs = `#graphql
   type Mutation {
     createMessage(messageInput: MessageInput!): Message
     signUp(signupInput: SignupInput!): SignUpResult
-    logIn(loginInput: LoginInput!): LoginPayload
+    logIn(loginInput: LoginInput!): LoginResult
   }
 `;
