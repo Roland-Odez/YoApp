@@ -21,7 +21,7 @@ export const typeDefs = `#graphql
   }
 
   type User {
-    id: ID!
+    _id: ID!
     email: String!
     username: String!
     password: String!
@@ -32,7 +32,7 @@ export const typeDefs = `#graphql
   }
 
   type Message {
-    id: ID!
+    _id: ID!
     sender: ID!
     reciever: ID!
     message: String!

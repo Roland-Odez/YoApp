@@ -1,23 +1,23 @@
 'use client'
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, ChangeEventHandler} from 'react'
 import { FaCheck } from "react-icons/fa6";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { FaRegLaugh } from "react-icons/fa";
 
-const LoginField = ({name, type, title}: {name: string, title: string, type: string}) => {
+const LoginField = ({name, type, title, handleInput}: {name: string, title: string, type: string, handleInput: (name: string, value: string)=> void}) => {
     const [focus, setFocus] = useState<boolean>(false)
     const [textPassowrd, setTextPassword] = useState<string>('password')
     const inputRef = useRef<HTMLInputElement|null>(null)
     useEffect(() => {
-        const eventCallBack =  (ele: any) => {
-        if(!inputRef.current?.contains(ele.target) && focus){
-            setFocus(false);
-        }
-    }
-        document.body.addEventListener('click', eventCallBack)
-      
-        return ()=> document.body.removeEventListener('click', eventCallBack)
-      }, [focus])
+      const eventCallBack =  (ele: any) => {
+          if(!inputRef.current?.contains(ele.target) && focus){
+              setFocus(false);
+          }
+      }
+      document.body.addEventListener('click', eventCallBack)
+
+      return ()=> document.body.removeEventListener('click', eventCallBack)
+    }, [focus])
 
       let inputDivColor: string = '#8696A0';
 
@@ -33,9 +33,17 @@ const LoginField = ({name, type, title}: {name: string, title: string, type: str
       <div style={{borderBottomColor: inputDivColor}} className='w-full border-b-primary-three flex items-center mb-[10px] border-b-[2px] border-transparent duration-500'>
         {
           type === 'text' ?
-          <input ref={inputRef} onFocus={() => setFocus(val => !val)} type={type} name={name} className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full' />
+          <input ref={inputRef} onFocus={() => setFocus(val => !val)} onChange={() => {
+            const myVal = inputRef.current?.value || '';
+            handleInput(name, myVal)}
+          } 
+           type={type} name={name} className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full' />
           :
-          <input ref={inputRef} onFocus={() => setFocus(val => !val)} type={textPassowrd} name={name} className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full' />
+          <input ref={inputRef} onFocus={() => setFocus(val => !val)} onChange={() => {
+            const myVal = inputRef.current?.value || '';
+            handleInput(name, myVal)}
+          } 
+           type={textPassowrd} name={name} className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full' />
         }
         {
           type === 'password' && 
