@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.10",
+    "firebase": "^10.7.2",
     "framer-motion": "^10.16.14",
     "graphql": "^16.8.1",
     "next": "14.0.2",

@@ -5,12 +5,13 @@ import { Amaranth } from 'next/font/google'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from '@/queries'
 import { useRouter } from 'next/navigation'
+import { LoginInput } from '@/types/type'
 
 const amaranth = Amaranth({weight: ['400'], subsets: ['latin']})
 
 export default function Login() {
 
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<LoginInput>({
     email: '', password: ''
   })
   const [loadStatus, setLoadStatus] = useState<boolean>(false)
@@ -20,7 +21,7 @@ export default function Login() {
   const handleInput = (name: string, value: string) => {
     setInputValue((val) => ({...val, [name]: value}))
   }
-  if(loading) return <h1>Login Processing.....</h1>
+  if(loading) return <h1>Login Processing....</h1>
   if(error || data?.logIn?.message) return <h1>Error: {data?.logIn?.message}, <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
   if(data?.logIn?.user) router.replace(`/?id=${data?.logIn?.user?._id}`)
 

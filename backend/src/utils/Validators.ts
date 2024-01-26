@@ -8,13 +8,13 @@ export const validateCredentials = ({email = '', username = '', password = '', i
     const isValidUsername = usernameRegex.test(username);
     const isValidEmail = emailRegex.test(email)
     const isValidPassword = passwordRegex.test(password);
-    const isValidImg = validator.isBase64(img);
+    const isValidImg = true;
 
     return {
         isValidUsername,
         isValidEmail,
         isValidPassword,
-        isValidImg: true
+        isValidImg
     }
     
 }

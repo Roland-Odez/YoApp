@@ -47,10 +47,10 @@ const server = new ApolloServer({
                     },
                 };
             },
-        },],
+        },]
 });
 await server.start();
-app.use('/graphql', cors(), express.json(), expressMiddleware(server, {
+app.use('/graphql', cors(), express.json({ limit: '200mb' }), expressMiddleware(server, {
     context: async ({ req }) => ({ token: req.headers.token }),
 }));
 // Modified server startup

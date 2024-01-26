@@ -31,12 +31,21 @@ export type Message = {
     message: String
 }
 
-export interface User {
-    id: Number,
-    name: String,
-    message: String,
-    read: Boolean,
-    time: Number,
-    img: String,
-    handleShowChatArea: ()=> void
+export type SignUpInput = {
+    email: string,
+    username: string,
+    password: string,
+    img: Blob | ""
+}
+
+export type LoginInput = {
+    email: string,
+    password: string,
+}
+
+export type LoginProps = {
+    name: string, 
+    title: string, 
+    type: string, 
+    handleInput: (name: string, value: string)=> void
 }

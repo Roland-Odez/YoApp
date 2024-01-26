@@ -21,3 +21,20 @@ import { gql } from "@apollo/client";
         }
     }
   `
+export const SIGNUP_USER = gql`
+    mutation SignUp($signupInput: SignupInput!) {
+        signUp(signupInput: $signupInput) {
+            ... on SuccessPayload {
+                token
+                user {
+                    _id
+                    email
+                    password
+                }
+            }
+            ... on FailedPayload {
+            message
+            }
+        }
+    }
+`

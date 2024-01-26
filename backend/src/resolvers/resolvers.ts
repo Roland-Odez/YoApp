@@ -80,7 +80,7 @@ export const resolvers = {
           email,
           lastSeen: date,
           password: hash,
-          img: img,
+          img,
           about: 'hey there, am on yoApp',
           friends: [],
         })
