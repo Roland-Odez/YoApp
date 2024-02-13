@@ -1,24 +1,32 @@
 'use client'
 import LoginField from '@/components/LoginField'
 import Image from 'next/image'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useContext, useState } from 'react'
 import { Amaranth } from 'next/font/google'
 import { HiPencilSquare } from "react-icons/hi2";
 import { SignUpInput } from '@/types/type'
 import { useMutation } from '@apollo/client'
 import { SIGNUP_USER } from '@/queries'
 import { useRouter } from 'next/navigation'
+import { downloadUserProfileImage, uploadUserProfileImage } from '@/firebase/storage'
+import Loader from '@/components/Loader'
+import { UserContext } from '@/context/user/UserContext'
 
 const amaranth = Amaranth({weight: ['400'], subsets: ['latin']})
 
-export default function Login() {
+export default function SignUP() {
   const [signupUser, {data, loading, error}] = useMutation(SIGNUP_USER)
   const router = useRouter()
-  const [profileSrc, setProfileSrc] = useState<string>('/profile.jpg')
+  const [signUpProcess, setSignUpProcess] = useState<boolean>(false);
+  const [signUpComplete, setSignUpComplete] = useState<boolean>(false);
+  const [myError, setError] = useState<boolean>(false);
+  const [profileSrc, setProfileSrc] = useState<string>('/profile.jpg');
   const [inputValue, setInputValue] = useState<SignUpInput>({
-    email: '', password: '', username: '', img: ''
-  })
+    email: '', password: '', username: '', img: new Blob()
+  });
 
+  const {state, dispatch} = useContext(UserContext)
+  
   const handleInput = (name: string, value: string) => {
     setInputValue((val) => ({...val, [name]: value}))
   }
@@ -28,19 +36,37 @@ export default function Login() {
     if (files[0]) {
       const blob = new Blob([files[0]], { type: files[0].type });
       const imageUrl = URL.createObjectURL(blob);
-      setInputValue((val) => ({...val, ['profile']: blob}))
+      setInputValue((val) => ({...val, ['img']: blob}))
       setProfileSrc(imageUrl)
     }
   }
 
-  const handleSubmit = () => {
-    signupUser({variables: {signupInput: inputValue}})
+  const handleSubmit = async () => {
+    try {
+      setSignUpProcess(true)
+      const snapshot = uploadUserProfileImage(inputValue['img'], inputValue['email'])
+      const signupInput = {...inputValue, img: (await snapshot).metadata.fullPath}
+      const {data} = await signupUser({variables: {signupInput}})
+      if(data) {
+        setSignUpProcess(false)
+        setSignUpComplete(true)
+      } 
+      if(data?.signUp?.user) router.replace(`/?id=${data?.signUp?.user?._id}`)
+      
+    } catch (error) {
+      console.log('error', error)
+      setError(true)
+      setSignUpProcess(false)
+      setSignUpComplete(false)
+    }
+    
   }
 
 
-  if(loading) return <h1 style={amaranth.style}>Signup processing....</h1>
+  if(signUpProcess) return <h1 style={amaranth.style}>Signup processing....</h1>
+  if(signUpComplete) return <h1 className='text-center' style={amaranth.style}>Signup complete <br /> loading...</h1>
+  if(myError) return <h1 style={amaranth.style}>Unable to setup user <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
   if(error || data?.signUp?.message) return <h1 style={amaranth.style}>Error: {data?.signUp?.message}, <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
-  if(data?.logIn?.user) router.replace(`/?id=${data?.logIn?.user?._id}`)
   
   return (
     <div className='w-full h-full flex-col flex items-center justify-center'>

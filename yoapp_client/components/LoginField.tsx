@@ -25,7 +25,6 @@ const LoginField = ({name, type, title, handleInput}: LoginProps) => {
       }else{
         inputDivColor = '#8696A0';
       }
-      console.log(textPassword)
   return (
     <div className='pb-[10px] flex flex-col gap-1'>
       <p className='text-primary-three text-sm'>{title}</p>

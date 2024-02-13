@@ -35,7 +35,7 @@ export type SignUpInput = {
     email: string,
     username: string,
     password: string,
-    img: Blob | ""
+    img: Blob
 }
 
 export type LoginInput = {
@@ -48,4 +48,21 @@ export type LoginProps = {
     title: string, 
     type: string, 
     handleInput: (name: string, value: string)=> void
+}
+
+export type User = {
+    _id: string,
+    email: string,
+    username: string,
+    about: string
+}
+
+export type State = {
+    token: string,
+    user: User
+}
+
+export type Action = {
+    type: 'addUser',
+    payload: User
 }

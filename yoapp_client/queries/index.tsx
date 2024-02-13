@@ -29,7 +29,8 @@ export const SIGNUP_USER = gql`
                 user {
                     _id
                     email
-                    password
+                    username
+                    about
                 }
             }
             ... on FailedPayload {
