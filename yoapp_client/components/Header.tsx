@@ -1,17 +1,20 @@
 'use client'
-import React from 'react'
+import React, { useContext } from 'react'
 import Image from 'next/image'
 import { HeadState } from '@/types/type'
 import Options from './Options'
+import { UserContext } from '@/context/user/UserContext'
 
 
 const Header = ({showOptions, handleShowProfile, handleShowOptions, handleShowGroup, handleShowStatus, handleShowNewChat}: HeadState) => {
+
+  const {state} = useContext(UserContext)
   return (
   <header>
     <div className='bg-light-bg flex items-center py-2 px-4'>
       <div className='w-full'>
         <div onClick={handleShowProfile} className='w-[40px] h-[40px] rounded-full overflow-hidden'>
-          <Image src='/profile.jpg' className='w-full h-full object-cover' width={40} height={40} alt='profile image' />
+          <Image src={`${state?.user?.img}`} className='w-full h-full object-cover' width={40} height={40} alt='profile image' />
         </div>
       </div>
       <div className='w-full flex items-center justify-between'>

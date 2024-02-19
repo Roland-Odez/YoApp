@@ -2,7 +2,10 @@ import { Message } from '@/types/type'
 import React from 'react'
 import { BsCheck2, BsCheck2All } from 'react-icons/bs'
 
-const RecieveMessage = ({message}: Message) => {
+type Msg = {
+    message: string
+}
+const RecieveMessage = ({message}: Msg) => {
     const read = false
     const msgStyle = {
         color: read ? '#8696A0' : '#FFFFFF99'

@@ -28,7 +28,13 @@ export type NewChatState = {
 }
 
 export type Message = {
-    message: String
+    message: String,
+    _id: string,
+    reciever: string,
+    time: number,
+    sender: string,
+    read: boolean,
+    img: string,
 }
 
 export type SignUpInput = {
@@ -54,7 +60,8 @@ export type User = {
     _id: string,
     email: string,
     username: string,
-    about: string
+    about: string,
+    img: string
 }
 
 export type State = {
@@ -63,6 +70,13 @@ export type State = {
 }
 
 export type Action = {
-    type: 'addUser',
+    type: 'signup',
     payload: User
+} | 
+{
+    type: 'login', 
+    payload: User
+} |
+{
+    type: 'logout'
 }

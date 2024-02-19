@@ -1,9 +1,10 @@
 import { StatusState } from '@/types/type'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
 import { HiArrowLeft } from 'react-icons/hi2'
 import StatusCircle from './StatusCircle'
+import { UserContext } from '@/context/user/UserContext'
 
 const users = [
   {
@@ -30,6 +31,8 @@ const users = [
 ]
 
 const StatusTab = ({ showStatus,handleShowStatus}: StatusState) => {
+
+  const {state} = useContext(UserContext)
   return (
     <div style={{transform: `${showStatus ? 'translateX(0%)': 'translateX(-110%)' }`}} className='absolute top-0 left-0 w-full h-full bg-dark-bg duration-300 ease-in-out translate-x-[-110%]'>
         <header className='bg-light-bg pt-14'>
@@ -43,7 +46,7 @@ const StatusTab = ({ showStatus,handleShowStatus}: StatusState) => {
         <div className='flex items-center cursor-pointer gap-4 pl-2 sm:pl-4 pr-2 mt-3 hover:bg-light-bg duration-150'>
             <div>
                 <div className='rounded-full flex items-center justify-center w-[40px] h-[40px] overflow-hidden'>
-                <Image src='/profile.jpg' className='w-full h-full object-cover' width={49} height={49} alt='profile image' />
+                <Image src={`${state.user.img}`} className='w-full h-full object-cover' width={49} height={49} alt='profile image' />
                 </div>
             </div>
             <div className='w-full flex flex-col py-3 pr-3'>

@@ -3,9 +3,13 @@ import { ProfileState } from '@/types/type'
 import Image from 'next/image'
 import { HiArrowLeft } from 'react-icons/hi2'
 import ProfileField from './ProfileField';
+import { UserContext } from '@/context/user/UserContext';
+import { useContext } from 'react';
 
 
 const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
+
+  const {state} = useContext(UserContext)
 
   return (
     <div style={{transform: `${showProfile ? 'translateX(0%)': 'translateX(-110%)' }`}} className='absolute top-0 left-0 w-full h-full bg-dark-bg duration-300 ease-in-out translate-x-[-110%]'>
@@ -22,16 +26,16 @@ const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
           {
             showProfile &&
             <div className='w-[200px] h-[200px] scale-100 animate-scaleImageUp duration-[400ms] rounded-full overflow-hidden'>
-              <Image src='/profile.jpg' className='w-full h-full object-cover' width={200} height={200} alt='profile image' />
+              <Image src={state.user.img} className='w-full h-full object-cover' width={200} height={200} alt='profile image' />
             </div>
           }
         </section>
         {
           showProfile &&
           <section className='animate-moveFieldDown duration-[300ms] delay-1000 opacity-100'>
-              <ProfileField name='Your name' value='Roland 🧢' />
+              <ProfileField name='Your name' value={state.user.username} />
               <p className='mt-1 ml-6 mr-7 mb-8 text-read-msg text-sm'>This is not your username or pin. This name will be visible to your WhatsApp contacts.</p>
-              <ProfileField name='About' value='Growing 👨🏽‍💻' />
+              <ProfileField name='About' value={state.user.about} />
           </section>
         }
     </main>

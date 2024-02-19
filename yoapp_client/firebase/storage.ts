@@ -9,8 +9,10 @@ export const uploadUserProfileImage = async (blobFile: Blob, fileName: string) =
 
     try {
         const snapshot = await uploadBytes(storageRef, blobFile)
-        console.log('image upload sucessfully', snapshot)
-        return snapshot;
+        const storageRef2 = ref(storage, snapshot.metadata.fullPath);
+        const url = await getDownloadURL(storageRef2)
+        console.log('image upload sucessfully', snapshot, url)
+        return {snapshot, url};
     } catch (error) {
         console.error('error uploading file:', error)
         throw new Error("error uploading image");

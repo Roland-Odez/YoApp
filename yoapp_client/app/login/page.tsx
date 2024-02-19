@@ -1,29 +1,55 @@
 "use client"
 import LoginField from '@/components/LoginField'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Amaranth } from 'next/font/google'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from '@/queries'
 import { useRouter } from 'next/navigation'
 import { LoginInput } from '@/types/type'
+import { UserContext } from '@/context/user/UserContext'
 
 const amaranth = Amaranth({weight: ['400'], subsets: ['latin']})
 
 export default function Login() {
 
-  const [inputValue, setInputValue] = useState<LoginInput>({
+  const {dispatch} = useContext(UserContext)
+
+  const [loginInput, setLoginInput] = useState<LoginInput>({
     email: '', password: ''
   })
-  const [loadStatus, setLoadStatus] = useState<boolean>(false)
+  const [loginComplete, setLoginComplete] = useState<boolean>(false)
+  const [loginProcess, setLoginProcess] = useState<boolean>(false)
+  const [myError, setError] = useState<boolean>(false)
   const router = useRouter()
-  const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER)
+  const [loginUser, {data}] = useMutation(LOGIN_USER)
 
   const handleInput = (name: string, value: string) => {
-    setInputValue((val) => ({...val, [name]: value}))
+    setLoginInput((val) => ({...val, [name]: value}))
   }
-  if(loading) return <h1>Login Processing....</h1>
-  if(error || data?.logIn?.message) return <h1>Error: {data?.logIn?.message}, <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
-  if(data?.logIn?.user) router.replace(`/?id=${data?.logIn?.user?._id}`)
+
+  const handleSubmit = async () => {
+    try {
+      setLoginProcess(true)
+      const {data} = await loginUser({variables: {loginInput}})
+      if(data?.logIn?.user){
+        setLoginProcess(false)
+        setLoginComplete(true)
+        dispatch({type: 'login', payload: data?.logIn})
+        router.replace('/')
+      }else{
+        throw new Error(`${data?.logIn?.message}`)
+      }
+    } catch (error) {
+      console.log('error', error)
+      setError(true)
+      setLoginComplete(false)
+      setLoginProcess(false)
+    }
+  }
+
+  if(loginProcess) return <h1 style={amaranth.style}>Login Processing....</h1>
+  if(loginComplete) return <h1 className='text-center' style={amaranth.style}>Login successfully! <br /> welcome {data?.logIn?.user?.username}</h1>
+  if(myError) return <h1 style={amaranth.style}>Unable to login user, {data?.logIn?.message} <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
 
 
   return (
@@ -37,7 +63,7 @@ export default function Login() {
                 <p className='mt-1 ml-6 mr-7 mb-8 text-read-msg text-center text-sm'>Login to your account</p>
                 <LoginField title='Email' name='email' type='text' handleInput={handleInput} />
                 <LoginField title='Password' name='password' type='password' handleInput={handleInput}  />
-                <button onClick={() => loginUser({variables: {loginInput: inputValue}})} className='w-full p-3 duration-200 hover:bg-transparent border-2 border-primary-three hover:text-primary-three bg-primary-three text-white-txt rounded-sm flex items-center justify-center'>
+                <button onClick={handleSubmit} className='w-full p-3 duration-200 hover:bg-transparent border-2 border-primary-three hover:text-primary-three bg-primary-three text-white-txt rounded-sm flex items-center justify-center'>
                   Log in
                 </button>
             </section>

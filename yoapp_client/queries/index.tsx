@@ -12,7 +12,9 @@ import { gql } from "@apollo/client";
                 user {
                     _id,
                     email,
-                    username
+                    username,
+                    about,
+                    img
                 }
             }
             ... on FailedPayload {
@@ -27,10 +29,11 @@ export const SIGNUP_USER = gql`
             ... on SuccessPayload {
                 token
                 user {
-                    _id
-                    email
-                    username
-                    about
+                    _id,
+                    email,
+                    username,
+                    about,
+                    img
                 }
             }
             ... on FailedPayload {

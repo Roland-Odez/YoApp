@@ -1,7 +1,7 @@
 import { HeadState } from '@/types/type'
 import React from 'react'
 import { HiArrowLeft } from 'react-icons/hi2'
-import Chat from './Chat'
+import Chat from './Chats'
 
 const users = [
     {

@@ -9,15 +9,7 @@ interface ContextProps {
 }
 
 const contextProps: ContextProps = {
-    state: {
-        token: '',
-        user: {
-            _id: '',
-             email: '',
-             username: '',
-             about: ''
-        }
-    },
+    state: userValue,
     dispatch: ()=>{}
 }
 

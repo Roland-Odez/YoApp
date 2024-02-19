@@ -1,10 +1,11 @@
 import { NewChatState } from '@/types/type'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 import { HiArrowLeft } from 'react-icons/hi2'
 import SearchBar from './SearchBar'
 import { MdGroups } from 'react-icons/md'
 import Link from 'next/link'
+import { UserContext } from '@/context/user/UserContext'
 
 
 const users = [
@@ -35,6 +36,8 @@ const users = [
   ]
 
 const NewChat = ({showNewChat,handleShowNewChat}: NewChatState) => {
+
+    const {state} = useContext(UserContext)
   return (
     <div style={{transform: `${showNewChat ? 'translateX(0%)': 'translateX(-110%)' }`}} className='absolute top-0 left-0 w-full h-full bg-dark-bg duration-300 ease-in-out translate-x-[-110%]'>
         <header className='bg-light-bg pt-14'>
@@ -62,11 +65,11 @@ const NewChat = ({showNewChat,handleShowNewChat}: NewChatState) => {
         <div className='flex items-center cursor-pointer gap-4 pl-2 sm:pl-4 pr-2 mt-3 hover:bg-light-bg duration-150'>
             <div>
                 <div className='rounded-full flex items-center justify-center w-[40px] h-[40px] overflow-hidden'>
-                <Image src='/profile.jpg' className='w-full h-full object-cover' width={49} height={49} alt='profile image' />
+                <Image src={state.user.img} className='w-full h-full object-cover' width={49} height={49} alt='profile image' />
                 </div>
             </div>
             <div className='w-full flex flex-col py-3 pr-3 border-b border-b-[rgba(134,150,160,0.27)]'>
-                <span className='capitalize text-unread-msg text-[17px]'>Roland Odenore(You)</span>
+                <span className='capitalize text-unread-msg text-[17px]'>{state.user.username} (You)</span>
                 <span className='text-sm text-read-msg font-light'>Message Yourself</span>
             </div>
         </div>

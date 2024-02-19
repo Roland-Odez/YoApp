@@ -3,7 +3,11 @@ import React from 'react'
 import { BsCheck2, BsCheck2All } from 'react-icons/bs'
 import { IoTriangle } from "react-icons/io5";
 
-const Message = ({message}: Message) => {
+type Msg = {
+    message: string
+}
+
+const SendMessage = ({message}: Msg) => {
     const read = false
     const msgStyle = {
         color: read ? '#8696A0' : '#FFFFFF99'
@@ -33,4 +37,4 @@ const Message = ({message}: Message) => {
   )
 }
 
-export default Message
+export default SendMessage

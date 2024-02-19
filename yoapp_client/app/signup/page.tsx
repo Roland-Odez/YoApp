@@ -8,14 +8,13 @@ import { SignUpInput } from '@/types/type'
 import { useMutation } from '@apollo/client'
 import { SIGNUP_USER } from '@/queries'
 import { useRouter } from 'next/navigation'
-import { downloadUserProfileImage, uploadUserProfileImage } from '@/firebase/storage'
-import Loader from '@/components/Loader'
+import { uploadUserProfileImage } from '@/firebase/storage'
 import { UserContext } from '@/context/user/UserContext'
 
 const amaranth = Amaranth({weight: ['400'], subsets: ['latin']})
 
 export default function SignUP() {
-  const [signupUser, {data, loading, error}] = useMutation(SIGNUP_USER)
+  const [signupUser, {data}] = useMutation(SIGNUP_USER)
   const router = useRouter()
   const [signUpProcess, setSignUpProcess] = useState<boolean>(false);
   const [signUpComplete, setSignUpComplete] = useState<boolean>(false);
@@ -25,7 +24,7 @@ export default function SignUP() {
     email: '', password: '', username: '', img: new Blob()
   });
 
-  const {state, dispatch} = useContext(UserContext)
+  const {dispatch} = useContext(UserContext)
   
   const handleInput = (name: string, value: string) => {
     setInputValue((val) => ({...val, [name]: value}))
@@ -44,14 +43,17 @@ export default function SignUP() {
   const handleSubmit = async () => {
     try {
       setSignUpProcess(true)
-      const snapshot = uploadUserProfileImage(inputValue['img'], inputValue['email'])
-      const signupInput = {...inputValue, img: (await snapshot).metadata.fullPath}
+      const {url} = await uploadUserProfileImage(inputValue['img'], inputValue['email'])
+      const signupInput = {...inputValue, img: url}
       const {data} = await signupUser({variables: {signupInput}})
-      if(data) {
+      if(data?.signUp?.user) {
         setSignUpProcess(false)
         setSignUpComplete(true)
-      } 
-      if(data?.signUp?.user) router.replace(`/?id=${data?.signUp?.user?._id}`)
+        dispatch({type: 'signup', payload: data?.signUp})
+        router.replace('/')
+      }else {
+        throw new Error(`${data?.signUp?.message}`)
+      }
       
     } catch (error) {
       console.log('error', error)
@@ -64,9 +66,8 @@ export default function SignUP() {
 
 
   if(signUpProcess) return <h1 style={amaranth.style}>Signup processing....</h1>
-  if(signUpComplete) return <h1 className='text-center' style={amaranth.style}>Signup complete <br /> loading...</h1>
-  if(myError) return <h1 style={amaranth.style}>Unable to setup user <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
-  if(error || data?.signUp?.message) return <h1 style={amaranth.style}>Error: {data?.signUp?.message}, <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
+  if(signUpComplete) return <h1 className='text-center' style={amaranth.style}>Signup complete! <br /> loading...</h1>
+  if(myError) return <h1 style={amaranth.style}>Unable to setup user, {data?.signUp?.message} <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
   
   return (
     <div className='w-full h-full flex-col flex items-center justify-center'>
