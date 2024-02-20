@@ -101,7 +101,7 @@ export const resolvers = {
                 const match = await bcrypt.compare(password, user.password);
                 if (!match)
                     throw new Error('wrong password');
-                const token = jwt.sign({ email, password: user.password }, process.env.JWT_SECRETE, { expiresIn: '1h' });
+                const token = jwt.sign({ email: user.email, password: user.password }, process.env.JWT_SECRETE, { expiresIn: '3d' });
                 await client.close();
                 return {
                     token,
@@ -112,6 +112,27 @@ export const resolvers = {
                 return {
                     message: error.message
                 };
+            }
+        },
+        updateUser: async (_, { updateInput }, context) => {
+            if (context.message)
+                return context;
+            const { user } = context;
+            console.log('user', user.id);
+            try {
+                await client.connect();
+                const database = client.db("yoapp");
+                const usersDB = database.collection("users");
+                const updatedUser = await usersDB.findOneAndUpdate({ email: user.email }, { $set: { [updateInput.name]: updateInput.value } }, { returnDocument: 'after' });
+                if (updatedUser) {
+                    return { user: updatedUser };
+                }
+                else {
+                    throw new Error('update failed');
+                }
+            }
+            catch (error) {
+                return { message: error.message };
             }
         }
     },
@@ -132,5 +153,14 @@ export const resolvers = {
                 return 'FailedPayload';
             return null;
         }
-    }
+    },
+    UserUpdateResult: {
+        __resolveType(obj, contextValue, info) {
+            if (obj.user)
+                return 'UserUpdatePayload';
+            if (obj.message)
+                return 'FailedPayload';
+            return null;
+        }
+    },
 };

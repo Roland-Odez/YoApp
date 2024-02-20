@@ -18,7 +18,7 @@ export default function Home({
 }) {
 const [showGroup, setShowGroup] = useState<boolean>(false)
 const [showProfile, setShowProfile] = useState<boolean>(false)
-const [showOptions, setOptions] = useState<boolean>(false)
+
 const [showStatus, setShowStatus] = useState<boolean>(false)
 const [showNewChat, setShowNewChat] = useState<boolean>(false)
 const [showChatArea, setShowChatArea] = useState<boolean>(false)
@@ -33,10 +33,6 @@ const handleShowChatArea = () => {
   scrollToBottom()
 }
 
-const handleShowOptions = () => {
-  setOptions(val => !val);
-}
-
 const handleShowGroup = () => {
   setShowGroup(val => !val );
 }
@@ -48,19 +44,6 @@ const handleShowStatus = () => {
 const handleShowNewChat = () => {
   setShowNewChat(val => !val );
 }
-
-
-useEffect(() => {
-  const eventCallBack =  (ele: any) => {
-    const option = document.querySelector('#option')
-    if(!option?.contains(ele.target)){
-      setOptions(false);
-    }
-  }
-  document.body.addEventListener('click', eventCallBack)
-
-  return ()=> document.body.removeEventListener('click', eventCallBack)
-}, [showOptions])
 
   
 useEffect(() => {
@@ -80,7 +63,7 @@ const scrollToBottom = () => {
       {/* contact area area */}
         <section className='relative border-r border-r-[rgba(134,150,160,0.27)] w-full h-full md:w-1/2 lg:max-w-[470px]'>
           {/* header */}
-          <Header handleShowProfile={handleShowProfile} handleShowOptions={handleShowOptions} showOptions={showOptions} handleShowStatus={handleShowStatus} showGroup={showGroup} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
+          <Header handleShowProfile={handleShowProfile} handleShowStatus={handleShowStatus} showGroup={showGroup} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
           <SearchBar />
           <Chats handleShowChatArea={handleShowChatArea} />
           <Profile showProfile={showProfile} handleShowProfile={handleShowProfile} />

@@ -5,7 +5,8 @@ import jwt from 'jsonwebtoken'
 import { validateCredentials } from '../utils/Validators.js';
 import { userModel } from '../schema/userShema.js';
 import { client } from '../db.js';
-import { LoginInput, SignUpInput } from '../../types.js';
+import { LoginInput, SignUpInput, UpdateInput } from '../../types.js';
+import { userInfo } from 'os';
 
 
   const pubsub = createPubSub()
@@ -127,7 +128,7 @@ export const resolvers = {
 
           if(!match) throw new Error('wrong password')
 
-          const token = jwt.sign({email, password: user.password}, process.env.JWT_SECRETE, { expiresIn: '1h' });
+          const token = jwt.sign({email: user.email, password: user.password}, process.env.JWT_SECRETE, { expiresIn: '3d' });
 
           await client.close();
           return {
@@ -139,6 +140,27 @@ export const resolvers = {
             message: error.message
           }
         }
+      },
+      updateUser: async (_:any, {updateInput}:{updateInput: UpdateInput}, context: any) => {
+        if(context.message) return context;
+
+        const {user} = context;
+        console.log('user', user.id)
+        try {
+          await client.connect();
+          const database = client.db("yoapp");
+          const usersDB = database.collection("users"); 
+          const updatedUser = await usersDB.findOneAndUpdate({email: user.email}, { $set: {[updateInput.name]: updateInput.value}}, { returnDocument: 'after' } )
+          if(updatedUser){
+            return {user: updatedUser}
+          }else{
+            throw new Error('update failed')
+          }
+
+        } catch (error) {
+          return {message: error.message}
+        }
+
       }
     },
     SignUpResult: {
@@ -157,5 +179,14 @@ export const resolvers = {
 
         return null;
       }
-    }
+    },
+    UserUpdateResult: {
+      __resolveType(obj: { user: any; message: string; }, contextValue: any, info: any){
+
+        if(obj.user) return 'UserUpdatePayload'
+        if(obj.message) return 'FailedPayload'
+
+        return null;
+      }
+    },
   };

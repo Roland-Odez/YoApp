@@ -30,3 +30,9 @@ export type LoginInput =
     email: string, 
     password: string, 
 }
+
+export type UpdateInput =
+{
+    name: string,
+    value: string
+}

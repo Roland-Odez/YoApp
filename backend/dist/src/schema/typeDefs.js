@@ -20,6 +20,11 @@ export const typeDefs = `#graphql
     password: String!
   }
 
+  input UpdateInput {
+    name: String!
+    value: String!
+  }
+
   type User {
     _id: ID!
     email: String!
@@ -52,6 +57,11 @@ export const typeDefs = `#graphql
 
   union SignUpResult = SuccessPayload | FailedPayload
   union LoginResult = SuccessPayload | FailedPayload
+  union UserUpdateResult = UserUpdatePayload | FailedPayload
+
+  type UserUpdatePayload {
+    user: User
+  }
 
   type SuccessPayload {
     token: String
@@ -66,5 +76,6 @@ export const typeDefs = `#graphql
     createMessage(messageInput: MessageInput!): Message
     signUp(signupInput: SignupInput!): SignUpResult
     logIn(loginInput: LoginInput!): LoginResult
+    updateUser(updateInput: UpdateInput!): UserUpdateResult
   }
 `;

@@ -11,6 +11,7 @@ import { typeDefs } from './schema/typeDefs.js';
 import { resolvers } from './resolvers/resolvers.js';
 import { config } from 'dotenv';
 import { client } from './db.js';
+import { authenticate } from './middlewares/index.js';
 config();
 const app = express();
 const httpServer = createServer(app);
@@ -51,7 +52,7 @@ const server = new ApolloServer({
 });
 await server.start();
 app.use('/graphql', cors(), express.json({ limit: '200mb' }), expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
+    context: async ({ req }) => authenticate(req),
 }));
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
