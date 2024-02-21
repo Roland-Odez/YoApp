@@ -63,7 +63,7 @@ const scrollToBottom = () => {
       {/* contact area area */}
         <section className='relative border-r border-r-[rgba(134,150,160,0.27)] w-full h-full md:w-1/2 lg:max-w-[470px]'>
           {/* header */}
-          <Header handleShowProfile={handleShowProfile} handleShowStatus={handleShowStatus} showGroup={showGroup} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
+          <Header handleShowProfile={handleShowProfile} handleShowStatus={handleShowStatus} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
           <SearchBar />
           <Chats handleShowChatArea={handleShowChatArea} />
           <Profile showProfile={showProfile} handleShowProfile={handleShowProfile} />

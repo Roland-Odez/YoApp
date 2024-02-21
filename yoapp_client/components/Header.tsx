@@ -10,7 +10,7 @@ const options = ['New group', 'Settings', 'Log out']
 const Header = ({ handleShowProfile, handleShowGroup, handleShowStatus, handleShowNewChat}: HeadState) => {
   const [showOptions, setOptions] = useState<boolean>(false)
   const {state} = useContext(UserContext)
-
+  console.log(state)
 const handleShowOptions = () => {
   setOptions(val => !val);
 }

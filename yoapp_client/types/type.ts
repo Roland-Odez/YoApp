@@ -1,5 +1,4 @@
 export type HeadState = {
-    showGroup: boolean,
     handleShowProfile?: ()=> void,
     handleShowGroup?: ()=> void,
     handleShowStatus?: ()=> void,
@@ -77,4 +76,8 @@ export type Action = {
 } |
 {
     type: 'logout'
+} | 
+{
+    type: 'updateUser',
+    payload: User
 }

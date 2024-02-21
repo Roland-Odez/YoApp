@@ -42,3 +42,22 @@ export const SIGNUP_USER = gql`
         }
     }
 `
+export const UPDATE_USER = gql`
+    mutation UpdateUser($updateInput: UpdateInput!) {
+        updateUser(updateInput: $updateInput) {
+            ... on UserUpdatePayload {
+                user {
+                    _id,
+                    username,
+                    email,
+                    img,
+                    about
+
+                }
+            }
+                ... on FailedPayload {
+                message
+            }
+        }
+    }
+`

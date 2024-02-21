@@ -11,7 +11,7 @@ import Options from './Options';
 const options = ['View photo', 'Take Photo', 'Upload photo', 'Remove photo']
 
 const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
-  const [showOptions, setOptions] = useState<boolean>(true)
+  const [showOptions, setOptions] = useState<boolean>(false)
   const {state} = useContext(UserContext)
 
   return (
@@ -45,9 +45,9 @@ const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
           {
             showProfile &&
             <section className='animate-moveFieldDown duration-[300ms] delay-1000 opacity-100'>
-                <ProfileField name='Your name' value={state.user.username} />
+                <ProfileField title='Your name' name='username' value={state.user.username} />
                 <p className='mt-1 ml-6 mr-7 mb-8 text-read-msg text-sm'>This is not your username or pin. This name will be visible to your WhatsApp contacts.</p>
-                <ProfileField name='About' value={state.user.about} />
+                <ProfileField title='About' name='about' value={state.user.about} />
             </section>
           }
       </main>
