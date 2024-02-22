@@ -19,7 +19,7 @@ export default function SignUP() {
   const [signUpProcess, setSignUpProcess] = useState<boolean>(false);
   const [signUpComplete, setSignUpComplete] = useState<boolean>(false);
   const [myError, setError] = useState<boolean>(false);
-  const [profileSrc, setProfileSrc] = useState<string>('/profile.jpg');
+  const [profileSrc, setProfileSrc] = useState<string>('/default.jpg');
   const [inputValue, setInputValue] = useState<SignUpInput>({
     email: '', password: '', username: '', img: new Blob()
   });
@@ -43,7 +43,11 @@ export default function SignUP() {
   const handleSubmit = async () => {
     try {
       setSignUpProcess(true)
-      const {url} = await uploadUserProfileImage(inputValue['img'], inputValue['email'])
+      let url = '/default.jpg'
+      if(typeof inputValue['img'] === 'object'){
+        const res = await uploadUserProfileImage(inputValue['img'], inputValue['email'])
+        url = res.url
+      }
       const signupInput = {...inputValue, img: url}
       const {data} = await signupUser({variables: {signupInput}})
       if(data?.signUp?.user) {

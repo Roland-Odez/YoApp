@@ -1,11 +1,11 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { firebaseApp } from "./app";
 
 const storage = getStorage(firebaseApp, `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}`)
 
 
-export const uploadUserProfileImage = async (blobFile: Blob, fileName: string) => {
-    const storageRef = ref(storage, `users/profile-images/${fileName}`);
+export const uploadUserProfileImage = async (blobFile: Blob, userEmail: string) => {
+    const storageRef = ref(storage, `users/profile-images/${userEmail}`);
 
     try {
         const snapshot = await uploadBytes(storageRef, blobFile)
@@ -32,4 +32,14 @@ export const downloadUserProfileImage = async (imgPath: string) => {
     }
 }
 
+export const deleteUserProfileImage = async (userEmail: string) => {
+    const storageRef = ref(storage, `users/profile-images/${userEmail}`);
+    try {
+        await deleteObject(storageRef)
+        console.log('sucessfully deleted')
+    } catch (error) {
+        console.log('error deleting image', error)
+        throw new Error("error deleting image");
+    }
+}
 

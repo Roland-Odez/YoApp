@@ -10,7 +10,7 @@ import Options from './Options';
 
 const options = ['View photo', 'Take Photo', 'Upload photo', 'Remove photo']
 
-const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
+const Profile = ({showProfile, handleShowProfile, handleViewProfilePicture}: ProfileState) => {
   const [showOptions, setOptions] = useState<boolean>(false)
   const {state} = useContext(UserContext)
 
@@ -30,14 +30,15 @@ const Profile = ({showProfile, handleShowProfile}: ProfileState) => {
               showProfile &&
               <>
                 <div className='w-[200px] profile-picture relative h-[200px] scale-100 animate-scaleImageUp duration-[400ms] rounded-full overflow-hidden'>
-                  <Image src={state.user.img} className='w-full h-full object-cover' width={200} height={200} alt='profile image' />
-                  <button onClick={() => setOptions(val => !val)} className='absolute duration-150 change-picture opacity-0 bg-[#3637383f] top-0 left-0 w-full h-full gap-2 flex flex-col justify-center items-center'>
+                  <Image src='/default.jpg' className='w-full h-full object-cover z-0 absolute top-0 left-0' width={200} height={200} alt='profile image' />
+                  <Image src={state.user.img} className='w-full h-full object-cover z-10 absolute left-0 top-0' width={200} height={200} alt='profile image' />
+                  <button onClick={() => setOptions(val => !val)} className='absolute z-20 duration-150 change-picture opacity-0 bg-[#363738ab] top-0 left-0 w-full h-full gap-2 flex flex-col justify-center items-center'>
                     <FaCamera className='text-white-txt w-6 h-6' />
-                    <p className='uppercase text-unread-msg text-center text-sm'>change <br /> profile photo</p>
+                    <p className='uppercase text-white-txt text-center text-sm'>change <br /> profile photo</p>
                   </button>
                 </div>
                 <div className='relative top-0 -left-1/4 bg-red-600'>
-                  <Options options={options} showOptions={showOptions} setOptions={setOptions} />
+                  <Options options={options} showOptions={showOptions} setOptions={setOptions} handleViewProfilePicture={handleViewProfilePicture} />
                 </div>
               </>
             }

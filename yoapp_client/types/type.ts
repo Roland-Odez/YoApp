@@ -11,7 +11,8 @@ export type StatusState = {
 
 export type ProfileState = {
     showProfile: boolean,
-    handleShowProfile(): void
+    handleShowProfile(): void,
+    handleViewProfilePicture: () => void
 }
 
 export type ProfileDetailState = {
@@ -80,4 +81,11 @@ export type Action = {
 {
     type: 'updateUser',
     payload: User
+} |
+{
+    type: 'viewUser',
+    payload?: {
+        viewProfile: boolean,
+        userImg: string
+    }
 }

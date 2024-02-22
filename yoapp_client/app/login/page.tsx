@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react'
 import { Amaranth } from 'next/font/google'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from '@/queries'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { LoginInput } from '@/types/type'
 import { UserContext } from '@/context/user/UserContext'
 

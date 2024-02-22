@@ -1,9 +1,24 @@
 'use client'
 import { Action, State } from "@/types/type";
 
-export let userValue = JSON.parse(localStorage.getItem('user') || '') ||  {
+let userD = {}
+let storedUser = ''
+if (typeof window !== "undefined") {
+  storedUser = localStorage.getItem('user') || ''
+}
+
+if (storedUser !== null) {
+  userD = storedUser ? JSON.parse(storedUser) : {};
+  // Now you can use the `user` variable safely
+} 
+export let userValue =  {
+  viewUser: {
+    viewProfile: false,
+    userImg: ''
+  },
   token: '',
-  user: {_id: '', email: '', username: '', about: '', img: ''} 
+  user: {_id: '', email: '', username: '', about: '', img: ''},
+  ...userD
 } 
   
 export const reducer = (state: State, action: Action) => {
