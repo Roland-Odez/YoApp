@@ -81,11 +81,4 @@ export type Action = {
 {
     type: 'updateUser',
     payload: User
-} |
-{
-    type: 'viewUser',
-    payload?: {
-        viewProfile: boolean,
-        userImg: string
-    }
 }
