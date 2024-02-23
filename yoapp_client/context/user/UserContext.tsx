@@ -16,22 +16,25 @@ const initialValue: ContextProps = {
 export const UserContext = createContext<ContextProps>(initialValue)
 
 const UserContextProvider = ({children}: {children: ReactNode}) => {
-    const [local, setLocal] = useState<State>(userValue)
-   const [state, dispatch] = useReducer(reducer, local)
+    // const [local, setLocal] = useState<State>(userValue)
+   const [state, dispatch] = useReducer(reducer, userValue)
     // Load initial value from localStorage
   useEffect(() => {
     const localStorageValue = localStorage.getItem('user');
     if (localStorageValue) {
-      setLocal(JSON.parse(localStorageValue));
+      dispatch({type: 'login', payload: JSON.parse(localStorageValue)});
     }
+    console.log('first use effect')
   }, []);
 
   // Save value to localStorage whenever it changes
   useEffect(() => {
-    if (local !== null) {
-      localStorage.setItem('user', JSON.stringify(local));
+    if (state !== userValue) {
+      localStorage.setItem('user', JSON.stringify(state));
+      // dispatch({type: 'login', payload: JSON.parse(localStorageValue)});
     }
-  }, [local]);
+    console.log('second use effect')
+  }, [state]);
     return (
         <UserContext.Provider value={{state, dispatch}}>
         {children}
