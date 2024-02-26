@@ -1,11 +1,11 @@
 "use client"
 import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 import { reducer, userValue } from "./reducer";
-import { Action, State } from "@/types/type";
+import { UserAction, UserState } from "@/types/type";
 
 interface ContextProps {
-    state: State;
-    dispatch: React.Dispatch<Action>
+    state: UserState;
+    dispatch: React.Dispatch<UserAction>
 }
 
 const initialValue: ContextProps = {
@@ -24,7 +24,6 @@ const UserContextProvider = ({children}: {children: ReactNode}) => {
     if (localStorageValue) {
       dispatch({type: 'login', payload: JSON.parse(localStorageValue)});
     }
-    console.log('first use effect')
   }, []);
 
   // Save value to localStorage whenever it changes

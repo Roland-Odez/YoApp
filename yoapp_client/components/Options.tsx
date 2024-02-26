@@ -1,4 +1,5 @@
 'use client'
+import { NotifyContext } from '@/context/notification/notifyContext'
 import { UserContext } from '@/context/user/UserContext'
 import { deleteUserProfileImage, uploadUserProfileImage } from '@/firebase/storage'
 import { UPDATE_USER } from '@/queries'
@@ -15,6 +16,7 @@ const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: P
   const [render, setRender] = useState<boolean>(false)
   const [updateUser, {data}] = useMutation(UPDATE_USER)
   const {state, dispatch} = useContext(UserContext)
+  const notify = useContext(NotifyContext)
   useEffect(() => setRender(true), [])
 
   
@@ -47,7 +49,10 @@ const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: P
                 Authorization: `Bearer ${state.token}`
               }
              }})
-            if(user) dispatch({type: 'updateUser', payload: user})
+            if(user){
+              dispatch({type: 'updateUser', payload: user})
+              notify.dispatch({type: 'On', payload: {message: 'your photo changed'}})
+            } 
           }else{
             console.log('cancelled image upload')
           }
@@ -65,7 +70,10 @@ const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: P
             Authorization: `Bearer ${state.token}`
           }
          }})
-        if(user) dispatch({type: 'updateUser', payload: user})
+        if(user){
+          dispatch({type: 'updateUser', payload: user})
+          notify.dispatch({type: 'On', payload: {message: 'photo removed'}})
+        } 
       } catch (error) {
         console.log('error', error)
       }

@@ -1,12 +1,12 @@
 'use client'
-import { Action, State } from "@/types/type";
+import { UserAction, UserState } from "@/types/type";
 
 export let userValue =  {
   token: '',
   user: {_id: '', email: '', username: '', about: '', img: ''}
 } 
   
-export const reducer = (state: State, action: Action) => {
+export const reducer = (state: UserState, action: UserAction) => {
     switch (action.type) {
         case 'updateUser':
           const prevData = JSON.parse(localStorage.getItem('user') || '')

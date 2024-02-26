@@ -10,6 +10,7 @@ import Profile from '@/components/Profile';
 import MessageArea from '@/components/MessageArea';
 import ViewProfilePicture from '@/components/ViewProfilePicture';
 import { UserContext } from '@/context/user/UserContext';
+import Notification from '@/components/Notification';
 
 export default function Home({
   params,
@@ -98,6 +99,7 @@ const scrollToBottom = () => {
           <ViewProfilePicture userImg={state.user.img} username={state.user.username} handleViewProfilePicture={handleViewProfilePicture} />
         )
       }
+      <Notification />
     </main>
   )
 }

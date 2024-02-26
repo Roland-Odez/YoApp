@@ -91,7 +91,8 @@ const config: Config = {
         'white-txt': '#E9EDEF',
         'unread-msg': '#D1D7DB',
         'read-msg': '#8696A0',
-        'secondary': '#f15c6d'
+        'secondary': '#f15c6d',
+        'notifybg': '#0b141af5'
       },
       boxShadow: {
         'dark-tab': ''

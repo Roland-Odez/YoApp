@@ -6,12 +6,14 @@ import { FaRegLaugh } from "react-icons/fa";
 import { useMutation } from '@apollo/client';
 import { UPDATE_USER } from '@/queries';
 import { UserContext } from '@/context/user/UserContext';
+import { NotifyContext } from '@/context/notification/notifyContext';
 
 const ProfileField = ({title, value, name}: {title: string, value: string, name: string}) => {
     const [focus, setFocus] = useState<boolean>(false)
     const [edit, setEdit] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement|null>(null)
     const {state, dispatch} = useContext(UserContext);
+    const notify = useContext(NotifyContext)
 
     const [updateUser, {data}] = useMutation(UPDATE_USER)
 
@@ -43,7 +45,10 @@ const ProfileField = ({title, value, name}: {title: string, value: string, name:
           Authorization: `Bearer ${state.token}`
         }
        }})
-       if(user) dispatch({type: 'updateUser', payload: user})
+       if(user){
+        dispatch({type: 'updateUser', payload: user})
+        notify.dispatch({type: 'On', payload: {message: `${name === 'about' ? 'about changed': 'your name changed' }`}})
+       }
        
       }
   return (

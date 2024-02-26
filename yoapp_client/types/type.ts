@@ -62,12 +62,24 @@ export type User = {
     img: string
 }
 
-export type State = {
+export type UserState = {
     token: string,
     user: User
 }
 
-export type Action = {
+export type NotifyState = {
+    message: string,
+    status: boolean
+}
+
+export type NotifyAction = {
+    type: 'On',
+    payload: {message: string}
+} | {
+    type: 'Off'
+}
+
+export type UserAction = {
     type: 'signup',
     payload: User
 } | 
