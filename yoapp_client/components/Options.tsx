@@ -14,7 +14,17 @@ type Props = {
 
 const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: Props) => {
   const [render, setRender] = useState<boolean>(false)
-  const [updateUser, {data}] = useMutation(UPDATE_USER)
+  const [updateUser, {data}] = useMutation(UPDATE_USER, {
+    onError(error, clientOptions) {
+      const status = JSON.parse(error.graphQLErrors[0].message).statusCode
+         if(status === 401){
+          notify.dispatch({type: 'On', payload: {message: 'signing out...'}})
+          dispatch({type: 'logout'})
+         }else{
+          notify.dispatch({type: 'On', payload: {message: 'update failed'}})
+         }
+    }
+  })
   const {state, dispatch} = useContext(UserContext)
   const notify = useContext(NotifyContext)
   useEffect(() => setRender(true), [])
@@ -79,6 +89,9 @@ const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: P
       }
     }else if(arg === 'View photo'){
       handleViewProfilePicture?.call(this)
+    }else if(arg === 'Log out'){
+      notify.dispatch({type: 'On', payload: {message: 'signing out...'}})
+      dispatch({type: 'logout'})
     }
   }
 

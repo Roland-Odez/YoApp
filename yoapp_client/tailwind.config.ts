@@ -20,6 +20,7 @@ const config: Config = {
         'rotateLeft2': 'rotateLeft2 .2s linear',
         'scaleImageUp': 'scaleImageUp .4s linear',
         'moveFieldDown': 'moveFieldDown .4s linear',
+        'moveNotifyUp': 'moveNotifyUp .5s linear',
         'appear': 'appear 2s easeInOut'
       },
       keyframes: {
@@ -63,6 +64,16 @@ const config: Config = {
         moveFieldDown: {
           '0%': {
             transform: 'translateY(-100px)',
+            opacity: '0'
+          },
+          '100%': {
+            transform: 'translateY(0px)',
+            opacity: '1'
+          }
+        },
+        moveNotifyUp: {
+          '0%': {
+            transform: 'translateY(100px)',
             opacity: '0'
           },
           '100%': {

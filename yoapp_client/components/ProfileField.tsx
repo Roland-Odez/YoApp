@@ -40,10 +40,18 @@ const ProfileField = ({title, value, name}: {title: string, value: string, name:
 
       const handleUpdateUser = async () => {
         setEdit(val => !val)
-       const {data: {updateUser: {user}}} = await updateUser({variables: {updateInput: {name, value: inputRef?.current?.value}}, context: {
+       const {data: {updateUser: {user}}, errors} = await updateUser({variables: {updateInput: {name, value: inputRef?.current?.value}}, context: {
         headers: {
           Authorization: `Bearer ${state.token}`
         }
+       }, onError(error, clientOptions) {
+        const status = JSON.parse(error.graphQLErrors[0].message).statusCode
+         if(status === 401){
+          notify.dispatch({type: 'On', payload: {message: 'signing out...'}})
+          dispatch({type: 'logout'})
+         }else{
+          notify.dispatch({type: 'On', payload: {message: 'update failed'}})
+         }
        }})
        if(user){
         dispatch({type: 'updateUser', payload: user})
@@ -55,7 +63,7 @@ const ProfileField = ({title, value, name}: {title: string, value: string, name:
     <div className='pb-[10px] px-7 py-3 flex flex-col gap-4'>
       <p className='text-primary-three text-sm'>{title}</p>
       <div style={{borderBottomColor: inputDivColor}} className='w-full flex items-center mb-[10px] border-b-[2px] border-transparent duration-500'>
-          <input ref={inputRef} onFocus={() => setFocus(val => !val)} type="text" disabled={!edit} name={name} placeholder={value} className='bg-transparent text-[17px] outline-none py-1 text-unread-msg w-full' />
+          <input ref={inputRef} onFocus={() => setFocus(val => !val)} required autoComplete='off' type="text" disabled={!edit} name={name} placeholder={value} className='bg-transparent text-[17px] outline-none py-1 text-unread-msg w-full' />
           <div className='flex items-center gap-x-3'>
               <button style={{display: `${edit ? 'none': 'block'}`}} onClick={() => setEdit(val => !val)} className='outline-none'>
                   <FaPen className='text-read-msg w-4 h-4' />

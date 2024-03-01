@@ -24,7 +24,7 @@ export default function RootLayout({
         <ApolloWrapper>
           <NotifyContextProvider>
             <UserContext>
-              {children}
+                {children}
             </UserContext>
           </NotifyContextProvider>
         </ApolloWrapper>

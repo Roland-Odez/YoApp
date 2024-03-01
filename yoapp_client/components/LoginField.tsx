@@ -35,7 +35,7 @@ const LoginField = ({name, type, title, handleInput}: LoginProps) => {
             const myVal = inputRef.current?.value || '';
             handleInput(name, myVal)}
           } 
-           type={textPassword} name={name} className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full' />
+           type={textPassword} autoComplete='off' name={name} className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full' />
           :
           <input 
           ref={inputRef} 
@@ -45,6 +45,7 @@ const LoginField = ({name, type, title, handleInput}: LoginProps) => {
             handleInput(name, myVal)}
           } 
           type={textPassword}
+          autoComplete='off'
           name={name} 
           className='bg-transparent focus:bg-slate-800 text-[17px] outline-none py-1 text-unread-msg w-full'
           />
