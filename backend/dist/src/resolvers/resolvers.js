@@ -1,5 +1,4 @@
 import { createPubSub } from 'graphql-yoga';
-import { message, users } from '../data.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { validateCredentials } from '../utils/Validators.js';
@@ -15,10 +14,33 @@ async function publishMessage(arg) {
 }
 export const resolvers = {
     Query: {
-        users: () => users,
-        messages: () => message,
-        user: (_, args) => {
-            return users.find((user) => user.id === Number(args.id));
+        chatMessages: async (_, args) => {
+            const userIds = [new ObjectId(args.usersId.reciever), new ObjectId(args.usersId.sender)];
+            try {
+                await client.connect();
+                const database = client.db("yoapp");
+                const msgDb = database.collection("chatMessages");
+                const messages = msgDb.aggregate([
+                    {
+                        $sort: {
+                            timestamp: 1
+                        }
+                    },
+                    {
+                        $match: {
+                            sender: { $in: userIds },
+                            reciever: { $in: userIds }
+                            // read: false
+                        }
+                    }
+                ]);
+                return await messages.toArray();
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+        userChats: (_, args) => {
         },
     },
     Subscription: {

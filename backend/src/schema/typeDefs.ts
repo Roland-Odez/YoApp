@@ -43,9 +43,8 @@ export const typeDefs = `#graphql
   }
 
   type Query {
-    users: [User]
-    messages: [MessagePayload]
-    user(id: ID!): User
+    chatMessages(usersId: usersId!): [MessagePayload]
+    userChats(usersId: usersId!): [MessagePayload]
   }
 
   type Subscription {

@@ -6,7 +6,6 @@ import { validateCredentials } from '../utils/Validators.js';
 import { userModel } from '../schema/userShema.js';
 import { client } from '../db.js';
 import { LoginInput, Message, SignUpInput, UpdateInput } from '../../types.js';
-import { userInfo } from 'os';
 import { Schema } from 'mongoose';
 import { messageModel } from '../schema/messageSchema.js';
 import { ObjectId } from 'mongodb';
@@ -22,10 +21,35 @@ async function publishMessage(arg: Message) {
 
 export const resolvers = {
     Query: {
-      users: () => users,
-      messages: () => message,
-      user: (_: any, args: { id: any; }) => {
-        return users.find((user) => user.id === Number(args.id))
+      chatMessages: async (_: any, args: any) => {
+        const userIds = [new ObjectId(args.usersId.reciever), new ObjectId(args.usersId.sender)]
+        
+        try {
+          await client.connect();
+          const database = client.db("yoapp");
+          const msgDb = database.collection("chatMessages");
+          const messages = msgDb.aggregate([
+            {
+              $sort: {
+                timestamp: 1
+              }
+            },
+            {
+              $match: {
+                sender: { $in: userIds },
+                reciever: { $in: userIds }
+                // read: false
+              }
+            }
+          ])
+          return await messages.toArray()
+        } catch (error) {
+          console.log(error)
+        }
+
+      },
+      userChats: (_: any, args: { id: string;}) => {
+        
       },
     },
     Subscription: {
