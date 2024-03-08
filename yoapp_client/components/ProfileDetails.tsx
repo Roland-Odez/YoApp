@@ -5,6 +5,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { MdBlock } from "react-icons/md";
 
 const ProfileDetails = ({showProfileDetails, handleShowProfileDetails}: ProfileDetailState) => {
+    // const {this}
   return (
     showProfileDetails && 
     <div style={{transform: `${showProfileDetails ? 'translateX(0%)': 'translateX(110%)' }`}} className='absolute xl:relative z-10 top-0 right-0 w-full h-full xl:w-[600px] bg-dark-bg duration-300 ease-in-out'>

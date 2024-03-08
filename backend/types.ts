@@ -1,4 +1,4 @@
-import { Types } from "mongoose"
+import { Date, Types } from "mongoose"
 export interface User {
     email: String
     username: String
@@ -9,13 +9,13 @@ export interface User {
     lastSeen: String
 }
 
-export interface Message {
-    sender: User
-    username: String
-    reciever: User
-    message: String
-    timeStamp: String
-    read: Boolean
+export type Message = {
+    _id: Types.ObjectId
+    sender: Types.ObjectId
+    reciever: Types.ObjectId
+    message: string
+    timestamp: Date
+    read: boolean
 }
 
 export type SignUpInput = 

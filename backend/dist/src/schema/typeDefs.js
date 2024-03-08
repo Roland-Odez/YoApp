@@ -25,6 +25,11 @@ export const typeDefs = `#graphql
     value: String!
   }
 
+  input usersId {
+    reciever: String!
+    sender: String!
+  }
+
   type User {
     _id: ID!
     email: String!
@@ -36,44 +41,46 @@ export const typeDefs = `#graphql
     lastSeen: String
   }
 
-  type Message {
-    _id: ID!
-    sender: ID!
-    reciever: ID!
-    message: String!
-    timeStamp: String
-    read: Boolean
-  }
-
   type Query {
     users: [User]
-    messages: [Message]
+    messages: [MessagePayload]
     user(id: ID!): User
   }
 
   type Subscription {
-    messageAdded: Message
+    messageAdded(usersId: usersId!): MessagePayload
   }
 
-  union SignUpResult = SuccessPayload | FailedPayload
-  union LoginResult = SuccessPayload | FailedPayload
+  union SignUpResult = LoginSignUpPayload | FailedPayload
+  union LoginResult = LoginSignUpPayload | FailedPayload
   union UserUpdateResult = UserUpdatePayload | FailedPayload
+  union MessageResult = MessagePayload | FailedPayload
 
   type UserUpdatePayload {
     user: User
   }
 
-  type SuccessPayload {
+  type MessagePayload {
+    _id: ID!
+    sender: ID!
+    reciever: ID!
+    message: String
+    timestamp: String
+    read: Boolean
+  }
+
+  type LoginSignUpPayload {
     token: String
     user: User
   }
 
   type FailedPayload {
-    message: String
+    text: String,
+    statusCode: Int
   }
 
   type Mutation {
-    createMessage(messageInput: MessageInput!): Message
+    createMessage(messageInput: MessageInput!): MessageResult
     signUp(signupInput: SignupInput!): SignUpResult
     logIn(loginInput: LoginInput!): LoginResult
     updateUser(updateInput: UpdateInput!): UserUpdateResult
