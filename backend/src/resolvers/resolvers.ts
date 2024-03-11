@@ -14,14 +14,18 @@ import { withFilter } from 'graphql-subscriptions';
 
 const pubsub = createPubSub()
 
-const topicName = 'MESSAGE_ADDED';
+const topicName1 = 'MESSAGE_ADDED';
+const topicName2 = 'CHAT_CHANGED';
 async function publishMessage(arg: Message) {
-  pubsub.publish(topicName, {messageAdded: arg})
+  pubsub.publish(topicName1, {messageAdded: arg})
+}
+async function publishChat(arg: any) {
+  pubsub.publish(topicName2, {users: arg})
 }
 
 export const resolvers = {
     Query: {
-      chatMessages: async (_: any, args: any) => {
+      getMessages: async (_: any, args: any) => {
         const userIds = [new ObjectId(args.usersId.reciever), new ObjectId(args.usersId.sender)]
         
         try {
@@ -38,7 +42,6 @@ export const resolvers = {
               $match: {
                 sender: { $in: userIds },
                 reciever: { $in: userIds }
-                // read: false
               }
             }
           ])
@@ -48,22 +51,85 @@ export const resolvers = {
         }
 
       },
-      userChats: (_: any, args: { id: string;}) => {
-        
+      getChats: async (_: any, args: any) => {
+        const userIds = [new ObjectId('65e1f99b87bd202cd495d1d6'), new ObjectId('65e1fa3287bd202cd495d1d7'), new ObjectId('65e1faa087bd202cd495d1d8'), new ObjectId('65e1fb0e87bd202cd495d1d9')]
+        const userId = new ObjectId('65cc6943ed79174bd247059f')
+        try {
+          const result = []
+          await client.connect();
+          const database = client.db("yoapp");
+          const msgDb = database.collection("chatMessages");
+          userIds.forEach((id) => {
+            const lastMessage = msgDb.findOne({
+              $or: [
+                {sender: userId, reciever: id},
+                {sender: id, reciever: userId}
+              ]
+            },{ sort: { timestamp: -1 } })
+            result.push(lastMessage)
+          })
+          return result
+        } catch (error) {
+          console.log(error)
+        }
       },
     },
     Subscription: {
       messageAdded: {
           subscribe:withFilter(() => {
-            return pubsub.subscribe(topicName);
+            return pubsub.subscribe(topicName1);
           }, (payload, variables) => {
             const {reciever, sender} = variables.usersId
-            if(reciever === payload.messageAdded.reciever || reciever === payload.messageAdded.sender || sender === payload.messageAdded.sender || sender === payload.messageAdded.reciever )return false
-          }),
-          resolvers: (payload: any) => {
-            return payload
+  
+
+            if(
+              reciever === payload.messageAdded.reciever.toString() || 
+              reciever === payload.messageAdded.sender.toString() || 
+              sender === payload.messageAdded.sender.toString() || 
+              sender === payload.messageAdded.reciever.toString() ){
+                return true
+              }
+          })
+      },
+      userChats: {
+        subscribe:withFilter(() => {
+          return pubsub.subscribe(topicName2);
+        }, (payload, variables, context) => {
+          const id = variables.userId
+
+          if(
+            id === payload.users.reciever.toString() || 
+            id === payload.users.sender.toString() || 
+            id === payload.users.sender.toString() || 
+            id === payload.users.reciever.toString() ){
+              return true
+            }
+        }),
+        resolve: async (payload: any) => {
+          const userIds = [new ObjectId('65e1f99b87bd202cd495d1d6'), new ObjectId('65e1fa3287bd202cd495d1d7'), new ObjectId('65e1faa087bd202cd495d1d8'), new ObjectId('65e1fb0e87bd202cd495d1d9')]
+          const userId = new ObjectId('65cc6943ed79174bd247059f')
+          
+          try {
+            const result = []
+            await client.connect();
+            const database = client.db("yoapp");
+            const msgDb = database.collection("chatMessages");
+            userIds.forEach((id) => {
+              const lastMessage = msgDb.findOne({
+                $or: [
+                  {sender: userId, reciever: id},
+                  {sender: id, reciever: userId}
+                ]
+              },{ sort: { timestamp: -1 } })
+              result.push(lastMessage)
+            })
+            return result
+          } catch (error) {
+            console.log(error)
+            return {text: error.message, statusCode: 404}
           }
-      }
+        }
+    },
     },
     Mutation: {
       createMessage: async (_: any, {messageInput}: {messageInput: Message} ) => {
@@ -83,7 +149,16 @@ export const resolvers = {
           if(acknowledged){
             const insertedMsg = await msgDb.findOne({_id: insertedId})
             await client.close();
-            publishMessage({_id: insertedMsg._id, sender: insertedMsg.sender, reciever: insertedMsg.reciever, read: insertedMsg.read, message: insertedMsg.message, timestamp: insertedMsg.timestamp})
+            publishMessage(
+              {
+                _id: insertedMsg._id, 
+                sender: insertedMsg.sender, 
+                reciever: insertedMsg.reciever, 
+                read: insertedMsg.read, 
+                message: insertedMsg.message, 
+                timestamp: insertedMsg.timestamp
+              })
+            publishChat(insertedMsg)
             return insertedMsg
           }else{
             throw new Error('message not created')
