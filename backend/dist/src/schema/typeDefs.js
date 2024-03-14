@@ -43,12 +43,12 @@ export const typeDefs = `#graphql
 
   type Query {
     getMessages(usersId: usersId!): [MessagePayload]
-    getChats(usersId: usersId!): [MessagePayload]
+    getChats(userId: String!): [ChatPayload]
   }
 
   type Subscription {
     messageAdded(usersId: usersId!): MessagePayload
-    userChats(userId: String!): [MessagePayload]
+    userChats(userId: String!): [ChatPayload]
   }
 
   union SignUpResult = LoginSignUpPayload | FailedPayload
@@ -58,6 +58,11 @@ export const typeDefs = `#graphql
 
   type UserUpdatePayload {
     user: User
+  }
+
+  type ChatPayload {
+    _id: ID!
+    chat: MessagePayload
   }
 
   type MessagePayload {

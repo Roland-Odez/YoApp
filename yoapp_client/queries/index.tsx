@@ -7,7 +7,7 @@ import { gql } from "@apollo/client";
     mutation LoginSignUp($loginInput: LoginInput!) {
 
         logIn(loginInput: $loginInput) {
-            ... on SuccessPayload {
+            ... on LoginSignUpPayload {
                 token
                 user {
                     _id,
@@ -18,7 +18,8 @@ import { gql } from "@apollo/client";
                 }
             }
             ... on FailedPayload {
-            message
+            text,
+            statusCode
             }
         }
     }
@@ -26,7 +27,7 @@ import { gql } from "@apollo/client";
 export const SIGNUP_USER = gql`
     mutation SignUp($signupInput: SignupInput!) {
         signUp(signupInput: $signupInput) {
-            ... on SuccessPayload {
+            ... on LoginSignUpPayload {
                 token
                 user {
                     _id,
@@ -37,7 +38,8 @@ export const SIGNUP_USER = gql`
                 }
             }
             ... on FailedPayload {
-            message
+            text,
+            statusCode
             }
         }
     }
@@ -56,7 +58,8 @@ export const UPDATE_USER = gql`
                 }
             }
                 ... on FailedPayload {
-                message
+                text,
+                statusCode
             }
         }
     }

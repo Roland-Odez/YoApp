@@ -37,7 +37,7 @@ export default function Login() {
         dispatch({type: 'login', payload: data?.logIn})
         router.replace('/')
       }else{
-        throw new Error(`${data?.logIn?.message}`)
+        throw new Error(`${data?.logIn?.text}`)
       }
     } catch (error) {
       console.log('error', error)
@@ -49,7 +49,7 @@ export default function Login() {
 
   if(loginProcess) return <h1 style={amaranth.style}>Login Processing....</h1>
   if(loginComplete) return <h1 className='text-center' style={amaranth.style}>welcome {data?.logIn?.user?.username}! <br /> Loading Your chats </h1>
-  if(myError) return <h1 style={amaranth.style}>Unable to login user, {data?.logIn?.message} <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
+  if(myError) return <h1 style={amaranth.style}>Unable to login user, {data?.logIn?.text} <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
 
 
   return (

@@ -56,7 +56,7 @@ export default function SignUP() {
         dispatch({type: 'signup', payload: data?.signUp})
         router.replace('/')
       }else {
-        throw new Error(`${data?.signUp?.message}`)
+        throw new Error(`${data?.signUp?.text}`)
       }
       
     } catch (error) {
@@ -71,7 +71,7 @@ export default function SignUP() {
 
   if(signUpProcess) return <h1 style={amaranth.style}>Signup processing....</h1>
   if(signUpComplete) return <h1 className='text-center' style={amaranth.style}>Signup complete! <br /> loading...</h1>
-  if(myError) return <h1 style={amaranth.style}>Unable to setup user, {data?.signUp?.message} <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
+  if(myError) return <h1 style={amaranth.style}>Unable to setup user, {data?.signUp?.text} <button onClick={() => location.reload()} className='text-primary-three text-lg'>retry</button></h1>
   
   return (
     <div className='w-full h-full flex-col flex items-center justify-center'>
