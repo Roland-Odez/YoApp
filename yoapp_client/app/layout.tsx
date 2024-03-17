@@ -21,13 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ApolloWrapper>
+        <UserContext>
           <NotifyContextProvider>
-            <UserContext>
+              <ApolloWrapper>
                 {children}
-            </UserContext>
+              </ApolloWrapper>
           </NotifyContextProvider>
-        </ApolloWrapper>
+        </UserContext>
       </body>
     </html>
   )

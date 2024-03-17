@@ -29,7 +29,7 @@ export type Message = {
     message: String,
     _id: string,
     reciever: string,
-    time: number,
+    timestamp: Date,
     sender: string,
     read: boolean,
     img: string,
@@ -93,4 +93,9 @@ export type UserAction = {
 {
     type: 'updateUser',
     payload: User
+}
+
+export type Chats = {
+    _id: string,
+    chat: Message
 }

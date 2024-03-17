@@ -1,5 +1,6 @@
 'use client'
-import {useState, useEffect, useRef, useContext} from 'react'
+import {useState, useEffect, useRef, useContext, Suspense} from 'react'
+import {useRouter} from 'next/navigation'
 import Chats from '@/components/Chats';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
@@ -11,6 +12,8 @@ import MessageArea from '@/components/MessageArea';
 import ViewProfilePicture from '@/components/ViewProfilePicture';
 import { UserContext } from '@/context/user/UserContext';
 import Notification from '@/components/Notification';
+import { useQuery } from '@apollo/client';
+import { CHAT_SUBSCRIPTION, GET_USER_CHAT } from '@/queries';
 
 export default function Home({
   params,
@@ -19,7 +22,7 @@ export default function Home({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const {state} = useContext(UserContext)
+const {state} = useContext(UserContext)
 const [showGroup, setShowGroup] = useState<boolean>(false)
 const [showProfile, setShowProfile] = useState<boolean>(false)
 const [viewProfile, setViewProfile] = useState<boolean>(false)
@@ -28,6 +31,8 @@ const [showStatus, setShowStatus] = useState<boolean>(false)
 const [showNewChat, setShowNewChat] = useState<boolean>(false)
 const [showChatArea, setShowChatArea] = useState<boolean>(false)
 const scrollContainer = useRef<HTMLDivElement>(null)
+
+const router = useRouter()
 
 const handleShowProfile = () => {
   setShowProfile(val => !val);
@@ -65,6 +70,11 @@ const scrollToBottom = () => {
   }
 };
 
+const { subscribeToMore, data } = useQuery(
+  GET_USER_CHAT,
+  { variables: {userId: "65cc6943ed79174bd247059f" }}
+);
+
 
   return (
     <main className='h-full md:h-screen w-full bg-lighter-bg lg:max-h-[95%] lg:max-w-[98%]'>
@@ -74,7 +84,26 @@ const scrollToBottom = () => {
           {/* header */}
           <Header handleShowProfile={handleShowProfile} handleShowStatus={handleShowStatus} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
           <SearchBar />
-          <Chats handleShowChatArea={handleShowChatArea} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Chats 
+            data={data?.getChats}
+            subscribeToNewChat={() =>
+              subscribeToMore({
+                document: CHAT_SUBSCRIPTION,
+                variables: {userId: "65cc6943ed79174bd247059f" },
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) return prev;
+                  const newFeedItem = subscriptionData.data.userChats;
+      
+                  return {
+                    getChats: newFeedItem
+                  };
+                }
+              })
+            }
+            handleShowChatArea={handleShowChatArea}
+             />
+          </Suspense>
           <Profile showProfile={showProfile} handleShowProfile={handleShowProfile} handleViewProfilePicture={handleViewProfilePicture} />
           <GroupTab showGroup={showGroup} handleShowGroup={handleShowGroup} />
           <NewChat showNewChat={showNewChat} handleShowNewChat={handleShowNewChat} />
