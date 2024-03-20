@@ -49,14 +49,11 @@ export const GET_USER_CHAT = gql`
     query GetChats($userId: String!) {
         getChats(userId: $userId) {
             _id
-            chat {
-            _id
             message
-            reciever
-            sender
-            timestamp
+            name
+            img
+            timeStamp
             read
-            }
         }
     }
 `
@@ -65,14 +62,11 @@ export const CHAT_SUBSCRIPTION = gql`
     subscription UserChats($userId: String!) {
         userChats(userId: $userId) {
             _id
-            chat {
-                _id
-                message
-                reciever
-                sender
-                timestamp
-                read
-            }
+            message
+            name
+            img
+            timeStamp
+            read
         }
     }
 `

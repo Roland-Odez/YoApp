@@ -66,7 +66,8 @@ export const createMessage =  async (_: any, {messageInput}: {messageInput: Mess
             message: insertedMsg.message, 
             timestamp: insertedMsg.timestamp,
           })
-        publishChat({...insertedMsg, userId: context.user.id})
+          
+        publishChat({...insertedMsg, userId: "65cc6943ed79174bd247059f"})
         return insertedMsg
       }else{
         throw new Error('message not created')

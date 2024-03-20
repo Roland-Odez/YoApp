@@ -14,6 +14,7 @@ import { UserContext } from '@/context/user/UserContext';
 import Notification from '@/components/Notification';
 import { useQuery } from '@apollo/client';
 import { CHAT_SUBSCRIPTION, GET_USER_CHAT } from '@/queries';
+import ChatArea from '@/components/ChatArea';
 
 export default function Home({
   params,
@@ -70,10 +71,7 @@ const scrollToBottom = () => {
   }
 };
 
-const { subscribeToMore, data } = useQuery(
-  GET_USER_CHAT,
-  { variables: {userId: "65cc6943ed79174bd247059f" }}
-);
+
 
 
   return (
@@ -85,24 +83,7 @@ const { subscribeToMore, data } = useQuery(
           <Header handleShowProfile={handleShowProfile} handleShowStatus={handleShowStatus} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
           <SearchBar />
           <Suspense fallback={<div>Loading...</div>}>
-            <Chats 
-            data={data?.getChats}
-            subscribeToNewChat={() =>
-              subscribeToMore({
-                document: CHAT_SUBSCRIPTION,
-                variables: {userId: "65cc6943ed79174bd247059f" },
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) return prev;
-                  const newFeedItem = subscriptionData.data.userChats;
-      
-                  return {
-                    getChats: newFeedItem
-                  };
-                }
-              })
-            }
-            handleShowChatArea={handleShowChatArea}
-             />
+           <ChatArea handleShowChatArea={handleShowChatArea} />
           </Suspense>
           <Profile showProfile={showProfile} handleShowProfile={handleShowProfile} handleViewProfilePicture={handleViewProfilePicture} />
           <GroupTab showGroup={showGroup} handleShowGroup={handleShowGroup} />

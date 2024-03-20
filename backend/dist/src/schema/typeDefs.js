@@ -62,7 +62,11 @@ export const typeDefs = `#graphql
 
   type ChatPayload {
     _id: ID!
-    chat: MessagePayload
+    timeStamp: String
+    read: Boolean
+    message: String
+    img: String
+    name: String
   }
 
   type MessagePayload {

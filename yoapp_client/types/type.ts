@@ -97,5 +97,9 @@ export type UserAction = {
 
 export type Chats = {
     _id: string,
-    chat: Message
+    name: string,
+    img: string,
+    message: String,
+    read: boolean,
+    timeStamp: Date,
 }
