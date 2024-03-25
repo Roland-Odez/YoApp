@@ -44,7 +44,7 @@ const GroupChat = ({handleShowGroup}: GroupChatProps) => {
   return (
     <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             {
-              users.map(({_id,img,message,read,reciever,sender,time }: Message) => (
+              users.map(({_id,img,message,read,reciever,sender,time }: any) => (
                 <div key={_id} onClick={handleShowGroup} className='flex items-center gap-4 pl-2 sm:pl-4 pr-2 hover:bg-light-bg duration-150'>
                     <div>
                         <div className='rounded-full flex items-center justify-center w-[43px] h-[43px] lg:w-[49px] lg:h-[49px] overflow-hidden'>

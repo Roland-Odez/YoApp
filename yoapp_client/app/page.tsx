@@ -1,7 +1,6 @@
 'use client'
 import {useState, useEffect, useRef, useContext, Suspense} from 'react'
 import {useRouter} from 'next/navigation'
-import Chats from '@/components/Chats';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import GroupTab from '@/components/GroupTab';
@@ -12,9 +11,8 @@ import MessageArea from '@/components/MessageArea';
 import ViewProfilePicture from '@/components/ViewProfilePicture';
 import { UserContext } from '@/context/user/UserContext';
 import Notification from '@/components/Notification';
-import { useQuery } from '@apollo/client';
-import { CHAT_SUBSCRIPTION, GET_USER_CHAT } from '@/queries';
 import ChatArea from '@/components/ChatArea';
+import { ChatSkeleton } from '@/components/ChatSkeleton';
 
 export default function Home({
   params,
@@ -82,7 +80,7 @@ const scrollToBottom = () => {
           {/* header */}
           <Header handleShowProfile={handleShowProfile} handleShowStatus={handleShowStatus} handleShowNewChat={handleShowNewChat} handleShowGroup={handleShowGroup} />
           <SearchBar />
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<ChatSkeleton />}>
            <ChatArea handleShowChatArea={handleShowChatArea} />
           </Suspense>
           <Profile showProfile={showProfile} handleShowProfile={handleShowProfile} handleViewProfilePicture={handleViewProfilePicture} />

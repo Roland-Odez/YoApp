@@ -5,7 +5,8 @@ import { Chats } from '@/types/type';
 import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import { BsCheck2, BsCheck2All } from "react-icons/bs";
-import ChatDate from './ChatDate';
+import ChatDate from '@/components/ChatDate';
+import Count from '@/components/Count';
 
   export type ChatProps = {
     handleShowChatArea:()=> void,
@@ -16,7 +17,6 @@ import ChatDate from './ChatDate';
 const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
   
   useEffect(() => subscribeToNewChat(), []);
-  
   return (
     <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             {
@@ -47,13 +47,13 @@ const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
                                     {message}
                                 </p>
                             </div>
-                            <span className='text-sm min-w-[19px] min-h-[19px] text-center bg-primary text-black rounded-full px-1'>9</span>
+                            <Count id={_id} />
                         </div>
                     </div>
                 </div>
               ))
             }
-          </main>
+    </main>
   )
 }
 export default Chats

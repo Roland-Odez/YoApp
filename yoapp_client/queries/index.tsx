@@ -91,3 +91,10 @@ export const UPDATE_USER = gql`
         }
     }
 `
+export const GET_UNREAD_MESSAGE_COUNT = gql`
+    query Query($usersId: usersId!) {
+        getUnreadMessageCount(usersId: $usersId){
+            totalUnread
+        }
+    }
+`
