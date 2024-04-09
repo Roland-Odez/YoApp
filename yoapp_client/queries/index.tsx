@@ -54,6 +54,7 @@ export const GET_USER_CHAT = gql`
             img
             timeStamp
             read
+            userId
         }
     }
 `
@@ -67,6 +68,7 @@ export const CHAT_SUBSCRIPTION = gql`
             img
             timeStamp
             read
+            userId
         }
     }
 `
@@ -95,6 +97,31 @@ export const GET_UNREAD_MESSAGE_COUNT = gql`
     query Query($usersId: usersId!) {
         getUnreadMessageCount(usersId: $usersId){
             totalUnread
+        }
+    }
+`
+export const GET_CHAT_MESSAGES = gql`
+    query GetMessages($usersId: usersId!) {
+        getMessages(usersId: $usersId) {
+        _id
+        sender
+        reciever
+        message
+        timestamp
+        read
+        }
+    }
+`
+
+export const GET_USER = gql`
+    query GetUser($userId: String!) {
+        getUser(userId: $userId) {
+            _id
+            email
+            username
+            about
+            img
+            lastSeen
         }
     }
 `
