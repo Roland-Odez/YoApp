@@ -42,7 +42,9 @@ export const typeDefs = `#graphql
   }
 
   type Query {
+    getUser(userId: String!): User
     getMessages(usersId: usersId!): [MessagePayload]
+    getUnreadMessageCount(usersId: usersId!): [UnreadMessageCountPayload]
     getChats(userId: String!): [ChatPayload]
   }
 
@@ -60,6 +62,10 @@ export const typeDefs = `#graphql
     user: User
   }
 
+  type UnreadMessageCountPayload {
+    totalUnread: Int
+  }
+
   type ChatPayload {
     _id: ID!
     timeStamp: String
@@ -67,6 +73,7 @@ export const typeDefs = `#graphql
     message: String
     img: String
     name: String
+    userId: ID
   }
 
   type MessagePayload {

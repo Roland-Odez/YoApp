@@ -3,6 +3,7 @@ import { client } from "../db.js";
 import { messageModel } from "../schema/messageSchema.js";
 import { Message } from "../../types";
 import { pubsub } from "../pubsub.js";
+import { message } from "../data.js";
 
 const topicName1 = 'MESSAGE_ADDED';
 const topicName2 = 'CHAT_CHANGED';
@@ -34,6 +35,37 @@ export const getMessages =  async (_: any, args: any) => {
       }
     ])
     return await messages.toArray()
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+export const getUnreadMessageCount = async (_:any, args: any) => {
+  const userIds = [new ObjectId(args.usersId.reciever), new ObjectId(args.usersId.sender)]
+  
+  try {
+    await client.connect();
+    const database = client.db("yoapp");
+    const msgDb = database.collection("chatMessages");
+    const count = msgDb.aggregate([
+      {
+        $sort: {
+          timestamp: 1
+        }
+      },
+      {
+        $match: {
+          sender: { $in: userIds },
+          reciever: { $in: userIds },
+          read: false
+        }
+      },
+      {
+        $count: 'totalUnread'
+      }
+    ])
+    return await count.toArray()
   } catch (error) {
     console.log(error)
   }

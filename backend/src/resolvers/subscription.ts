@@ -88,6 +88,7 @@ export const userChats =  {
               message: '$chat.message',
               img: '$user.img',
               name: '$user.username',
+              userId: '$user._id'
             }
           }
         ]).toArray();

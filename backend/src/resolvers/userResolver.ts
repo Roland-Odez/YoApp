@@ -57,6 +57,7 @@ export const getChats = async (_: any, args: any, context: any) => {
         message: '$chat.message',
         img: '$user.img',
         name: '$user.username',
+        userId: '$user._id'
       }
     }
   ]).toArray();
@@ -86,3 +87,23 @@ export const updateUser = async (_:any, {updateInput}:{updateInput: UpdateInput}
       return JSON.parse(error)
     }
   }
+
+export const getUser = async (_:any, {userId}:{userId: string}, context: any) => {
+  if(context.message) throw new Error(JSON.stringify({text: context.message, statusCode: 401}));
+  if(userId === '') throw new Error(JSON.stringify({text: 'input empty', statusCode: 400}))
+
+  try {
+    await client.connect();
+    const database = client.db("yoapp");
+    const usersDB = database.collection("users"); 
+    const user = await usersDB.findOne({_id: new ObjectId(userId)})
+    if(user){
+      return user
+    }else{
+      throw new Error(JSON.stringify({text: 'user not found', statusCode: 404}))
+    }
+
+  } catch (error) {
+    return JSON.parse(error)
+  }
+}

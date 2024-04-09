@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { logIn, signUp } from './authResolver.js';
-import { createMessage, getMessages } from './messageResolver.js';
-import { updateUser, getChats } from './userResolver.js';
+import { createMessage, getMessages, getUnreadMessageCount } from './messageResolver.js';
+import { updateUser, getChats, getUser } from './userResolver.js';
 import { messageAdded, userChats } from './subscription.js';
 
 
@@ -9,6 +9,8 @@ export const resolvers = {
     Query: {
       getMessages,
       getChats,
+      getUnreadMessageCount,
+      getUser
     },
     Subscription: {
       messageAdded,
