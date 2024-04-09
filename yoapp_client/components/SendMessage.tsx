@@ -3,14 +3,10 @@ import React from 'react'
 import { BsCheck2, BsCheck2All } from 'react-icons/bs'
 import { IoTriangle } from "react-icons/io5";
 
-type Msg = {
-    message: string
-}
+const SendMessage = (data: Message) => {
 
-const SendMessage = ({message}: Msg) => {
-    const read = false
     const msgStyle = {
-        color: read ? '#8696A0' : '#FFFFFF99'
+        color: data.read ? '#8696A0' : '#FFFFFF99'
     }
   
   return (
@@ -19,11 +15,11 @@ const SendMessage = ({message}: Msg) => {
             <div className='flex items-end flex-col bg-primary-two z-10 rounded-tl-2xl rounded-b-2xl p-[6px] xl:p-2'>
                 {/* <p className='text-xs font-bold'>Roland Odenore</p> */}
                 <section className='flex items-center gap-1'>
-                <p className='text-xs lg:text-sm px-1 break-words'>{message}</p>
+                <p className='text-xs lg:text-sm px-1 break-words'>{data.message}</p>
                 <div className='flex items-center self-end gap-1 pt-2'>
                     <span className='text-[10px] lg:text-sm font-light'>20:34</span>
                     {
-                        read ? 
+                        data.read ? 
                         <BsCheck2All style={msgStyle} />
                         :
                         <BsCheck2 style={msgStyle} />

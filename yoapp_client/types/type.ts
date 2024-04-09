@@ -16,6 +16,7 @@ export type ProfileState = {
 }
 
 export type ProfileDetailState = {
+    userId: string,
     showProfileDetails: boolean,
     handleShowProfileDetails(): void
 }
@@ -95,6 +96,21 @@ export type UserAction = {
     payload: User
 }
 
+
+export type ChatState = {
+    userId: string,
+    name: string,
+    img: string
+}
+
+export type ChatAction = {
+    type: 'open',
+    payload: ChatState
+} | 
+{
+    type: 'close'
+} 
+
 export type Chats = {
     _id: string,
     name: string,
@@ -102,4 +118,5 @@ export type Chats = {
     message: String,
     read: boolean,
     timeStamp: Date,
+    userId: string
 }

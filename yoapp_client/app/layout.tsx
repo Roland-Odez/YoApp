@@ -5,6 +5,7 @@ import './globals.css'
 import { ApolloWrapper } from '@/lib/ApolloWrapper';
 import UserContext from '@/context/user/UserContext';
 import NotifyContextProvider from '@/context/notification/notifyContext';
+import ChatContextProvider, { ChatContext } from '@/context/chat/chatContext';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,9 +24,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <UserContext>
           <NotifyContextProvider>
+            <ChatContextProvider>
               <ApolloWrapper>
                 {children}
               </ApolloWrapper>
+            </ChatContextProvider>
           </NotifyContextProvider>
         </UserContext>
       </body>

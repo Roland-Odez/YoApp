@@ -1,12 +1,13 @@
 'use client'
 
 import { UserContext } from '@/context/user/UserContext';
-import { Chats } from '@/types/type';
+import { ChatState, Chats } from '@/types/type';
 import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import { BsCheck2, BsCheck2All } from "react-icons/bs";
 import ChatDate from '@/components/ChatDate';
 import Count from '@/components/Count';
+import { ChatContext } from '@/context/chat/chatContext';
 
   export type ChatProps = {
     handleShowChatArea:()=> void,
@@ -15,13 +16,19 @@ import Count from '@/components/Count';
 }
 
 const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
+
+  const {state, dispatch} = useContext(ChatContext)
   
   useEffect(() => subscribeToNewChat(), []);
+  const clickChat = ({name,img,userId}: ChatState) => {
+    handleShowChatArea()
+    dispatch({type: 'open', payload: {name,img,userId}})
+  }
   return (
     <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             {
-              data?.map(({_id, img, message, name, read, timeStamp}: Chats) => (
-                <div key={_id} onClick={handleShowChatArea} className='flex items-center gap-4 pl-2 sm:pl-4 pr-2 hover:bg-light-bg duration-150'>
+              data?.map(({_id, img, message, name, read, timeStamp, userId}: Chats) => (
+                <div key={_id} onClick={() => clickChat({userId, img, name})} className='flex items-center gap-4 pl-2 sm:pl-4 pr-2 hover:bg-light-bg duration-150'>
                     <div>
                         <div className='rounded-full flex items-center justify-center w-[43px] h-[43px] lg:w-[49px] lg:h-[49px] overflow-hidden'>
                         <Image src={img} className='w-full h-full object-cover' width={49} height={49} alt='profile image' />
