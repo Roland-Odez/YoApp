@@ -73,6 +73,20 @@ export const CHAT_SUBSCRIPTION = gql`
     }
 `
 
+export const MESSAGE_SUBSCRIPTION = gql`
+    subscription MessageAdded($usersId: usersId!) {
+        messageAdded(usersId: $userId) {
+            _id
+            message
+            name
+            img
+            timeStamp
+            read
+            userId
+        }
+    }
+`
+
 export const UPDATE_USER = gql`
     mutation UpdateUser($updateInput: UpdateInput!) {
         updateUser(updateInput: $updateInput) {
