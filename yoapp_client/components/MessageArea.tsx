@@ -3,16 +3,14 @@ import React, { MutableRefObject, useContext, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { HiArrowLeft } from 'react-icons/hi2'
 import { SlOptionsVertical } from 'react-icons/sl'
-import RecieveMessage from './RecieveMessage'
-import SendMessage from './SendMessage'
 import Keyboard from './Keyboard'
 import ProfileDetails from './ProfileDetails'
 import { UserContext } from '@/context/user/UserContext'
 import { useSuspenseQuery } from '@apollo/client'
-import { GET_CHAT_MESSAGES } from '@/queries'
+import { GET_CHAT_MESSAGES, MESSAGE_SUBSCRIPTION } from '@/queries'
 import { useSearchParams } from 'next/navigation'
-import { Message } from '@/types/type'
 import { ChatContext } from '@/context/chat/chatContext'
+import Messages from './Messages'
 
 type MessageAreaProps = {
     scrollContainer: MutableRefObject<null|HTMLDivElement>
@@ -65,15 +63,20 @@ const MessageArea = ({scrollContainer, setShowChatArea}: MessageAreaProps) => {
               {/* message area */}
               <div className='w-full justify-end flex flex-col gap-1 max-h-[calc(100%-113px)]'>
                 <div ref={scrollContainer} className='overflow-y-auto py-2 hover:on-scrollbar'>
-                  {
-                    data.getMessages.map((msg: Message) => {
-                      if(msg.sender === state.user._id){
-                        return <SendMessage {...msg} />
-                      }else{
-                        return <RecieveMessage {...msg} />
+                  <Messages
+                    data={data.getMessages}
+                    subscribeToNewMessage={subscribeToMore({
+                      document: MESSAGE_SUBSCRIPTION,
+                      variables: {usersId: {sender: state?.user?._id, reciever: chat.state.userId }},
+                      updateQuery: (prev, { subscriptionData }: any) => {
+                        if (!subscriptionData.data) return prev;
+                        const newFeedItem = subscriptionData.data.getMessages;
+                        return {
+                          getMessages: newFeedItem
+                        };
                       }
-                    })
-                  }
+                    })}
+                  />
                 </div>
               </div>
 
