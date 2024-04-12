@@ -1,7 +1,6 @@
 'use client'
 
-import { UserContext } from '@/context/user/UserContext';
-import { ChatState, Chats } from '@/types/type';
+import { ChatState, Chats as UserChat } from '@/types/type';
 import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import { BsCheck2, BsCheck2All } from "react-icons/bs";
@@ -12,12 +11,12 @@ import { ChatContext } from '@/context/chat/chatContext';
   export type ChatProps = {
     handleShowChatArea:()=> void,
     subscribeToNewChat: ()=> any
-    data: Chats[]
+    data: UserChat[]
 }
 
 const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
 
-  const {state, dispatch} = useContext(ChatContext)
+  const {dispatch} = useContext(ChatContext)
   
   useEffect(() => subscribeToNewChat(), []);
   const clickChat = ({name,img,userId}: ChatState) => {
@@ -27,7 +26,7 @@ const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
   return (
     <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>
             {
-              data?.map(({_id, img, message, name, read, timeStamp, userId}: Chats) => (
+              data?.map(({_id, img, message, name, read, timeStamp, userId}: UserChat) => (
                 <div key={_id} onClick={() => clickChat({userId, img, name})} className='flex items-center gap-4 pl-2 sm:pl-4 pr-2 hover:bg-light-bg duration-150'>
                     <div>
                         <div className='rounded-full flex items-center justify-center w-[43px] h-[43px] lg:w-[49px] lg:h-[49px] overflow-hidden'>
@@ -46,9 +45,9 @@ const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
 
                                 {
                                     read ? 
-                                    <BsCheck2All style={{color: read ? '#8696A0' : '#D1D7DB'}} />
+                                    <BsCheck2All color={read ? '#8696A0' : '#D1D7DB'} />
                                     :
-                                    <BsCheck2 style={{color: read ? '#8696A0' : '#D1D7DB'}} />
+                                    <BsCheck2 color={read ? '#8696A0' : '#D1D7DB'} />
                                 }
                                 <p style={{color: read ? '#8696A0' : '#D1D7DB'}} className='text-sm text-unread-msg truncate xs:w-[240px] sm:w-[290px] md:w-[250px] lg:w-[320px]'>
                                     {message}
