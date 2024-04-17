@@ -87,6 +87,15 @@ export const MESSAGE_SUBSCRIPTION = gql`
     }
 `
 
+export const STATUS_SUBSCRIPTION = gql`
+    subscription StatusChanged($userId: userId!) {
+        statusChanged(userId: $userId) {
+            lastSeen
+            online
+        }
+    }
+`
+
 export const UPDATE_USER = gql`
     mutation UpdateUser($updateInput: UpdateInput!) {
         updateUser(updateInput: $updateInput) {
@@ -136,6 +145,16 @@ export const GET_USER = gql`
             about
             img
             lastSeen
+            online
+        }
+    }
+`
+
+export const GET_USER_STATUS = gql`
+    query GetUserStatus($userId: String!) {
+        getUser(userId: $userId) {
+            lastSeen
+            online
         }
     }
 `
