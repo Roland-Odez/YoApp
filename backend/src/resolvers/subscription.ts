@@ -5,12 +5,13 @@ import { client } from "../db.js";
 
 const topicName1 = 'MESSAGE_ADDED';
 const topicName2 = 'CHAT_CHANGED';
-export const  messageAdded =  {
+const topicName3 = 'STATUS_CHANGED';
+
+export const messageAdded =  {
     subscribe:withFilter(() => {
       return pubsub.subscribe(topicName1);
     }, (payload, variables) => {
       const {reciever, sender} = variables.usersId
-
 
       if(
         reciever === payload.messageAdded.reciever.toString() || 
@@ -19,6 +20,14 @@ export const  messageAdded =  {
         sender === payload.messageAdded.reciever.toString() ){
           return true
         }
+    })
+}
+
+export const statusChanged =  {
+    subscribe:withFilter(() => {
+      return pubsub.subscribe(topicName3);
+    }, (payload, variables) => {
+      return payload.friends.includes(variables.user)
     })
 }
 

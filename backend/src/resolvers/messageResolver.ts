@@ -3,10 +3,10 @@ import { client } from "../db.js";
 import { messageModel } from "../schema/messageSchema.js";
 import { Message } from "../../types";
 import { pubsub } from "../pubsub.js";
-import { message } from "../data.js";
 
 const topicName1 = 'MESSAGE_ADDED';
 const topicName2 = 'CHAT_CHANGED';
+
 async function publishMessage(arg: Message) {
   pubsub.publish(topicName1, {messageAdded: arg})
 }

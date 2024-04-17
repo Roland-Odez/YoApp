@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { logIn, signUp } from './authResolver.js';
 import { createMessage, getMessages, getUnreadMessageCount } from './messageResolver.js';
-import { updateUser, getChats, getUser } from './userResolver.js';
+import { updateUser, getChats, getUser, updateUserStatus } from './userResolver.js';
 import { messageAdded, userChats } from './subscription.js';
 
 
@@ -20,7 +20,8 @@ export const resolvers = {
       createMessage,
       signUp,
       logIn,
-      updateUser
+      updateUser,
+      updateUserStatus
     },
     SignUpResult: {
       __resolveType(obj: { user: any; text: string; }, contextValue: any, info: any){

@@ -8,7 +8,8 @@ const userSchema = new Schema<User>({
     about: {type: String, required: true},
     img: {type: String},
     friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    lastSeen: {type: String}
+    lastSeen: {type: Date, default: Date.now},
+    online: {type: Boolean, default: true}
 });
 
 export const userModel = model('User', userSchema);

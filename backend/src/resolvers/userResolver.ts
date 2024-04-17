@@ -1,7 +1,12 @@
 import { ObjectId } from "mongodb";
 import { UpdateInput } from "../../types";
 import { client } from "../db.js";
+import { pubsub } from "../pubsub.js";
 
+const topicName3 = 'STATUS_CHANGED';
+async function publishOnlineStatus(arg: any) {
+  pubsub.publish(topicName3, {...arg})
+}
 
 export const getChats = async (_: any, args: any, context: any) => {
   const userId = new ObjectId(args.userId)
@@ -101,6 +106,28 @@ export const getUser = async (_:any, {userId}:{userId: string}, context: any) =>
       return user
     }else{
       throw new Error(JSON.stringify({text: 'user not found', statusCode: 404}))
+    }
+
+  } catch (error) {
+    return JSON.parse(error)
+  }
+}
+
+export const updateUserStatus = async (_:any, {statusInput}:{statusInput: {online: string}}, context: any) => {
+  if(context.message) throw new Error(JSON.stringify({text: context.message, statusCode: 401}));
+  const {online} = statusInput
+  if(online === '') throw new Error(JSON.stringify({text: 'input empty', statusCode: 400}))
+  const {user} = context;
+  try {
+    await client.connect();
+    const database = client.db("yoapp");
+    const usersDB = database.collection("users"); 
+    const updatedUser = await usersDB.findOneAndUpdate({email: user.email}, { $set: {online, lastSeen: Date.now()}}, { returnDocument: 'after' } )
+    if(updatedUser){
+      publishOnlineStatus(updateUser)
+      return {...updatedUser}
+    }else{
+      throw new Error(JSON.stringify({text: 'update failed', statusCode: 500}))
     }
 
   } catch (error) {

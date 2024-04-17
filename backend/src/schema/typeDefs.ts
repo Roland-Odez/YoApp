@@ -26,6 +26,10 @@ export const typeDefs = `#graphql
     value: String!
   }
 
+  input StatusInput {
+    online: String!
+  }
+
   input usersId {
     reciever: String!
     sender: String!
@@ -40,6 +44,7 @@ export const typeDefs = `#graphql
     friends: [User]
     img: String!
     lastSeen: String
+    online: Boolean
   }
 
   type Query {
@@ -52,6 +57,7 @@ export const typeDefs = `#graphql
   type Subscription {
     messageAdded(usersId: usersId!): MessagePayload
     userChats(userId: String!): [ChatPayload]
+    statusChanged(userId: String!): User
   }
 
   union SignUpResult = LoginSignUpPayload | FailedPayload
@@ -101,5 +107,6 @@ export const typeDefs = `#graphql
     signUp(signupInput: SignupInput!): SignUpResult
     logIn(loginInput: LoginInput!): LoginResult
     updateUser(updateInput: UpdateInput!): UserUpdateResult
+    updateUserStatus(statusInput: StatusInput!): UserUpdateResult
   }
 `;

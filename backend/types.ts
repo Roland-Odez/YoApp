@@ -6,7 +6,8 @@ export interface User {
     about?: String
     friends?: Types.ArraySubdocument<User>
     img: String
-    lastSeen: String
+    lastSeen: Date
+    online: Boolean
 }
 
 export type Message = {
