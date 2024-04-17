@@ -17,9 +17,9 @@ const Messages = ({data, subscribeToNewMessage}: MessageProps) => {
         {
             data.map((msg: Message) => {
                 if(msg.sender === state.user._id){
-                    return <SendMessage {...msg} />
+                    return <SendMessage key={msg._id} {...msg} />
             }else{
-                return <RecieveMessage {...msg} />
+                return <RecieveMessage key={msg._id} {...msg} />
             }
             })
         }

@@ -11,6 +11,7 @@ import { GET_CHAT_MESSAGES, MESSAGE_SUBSCRIPTION } from '@/queries'
 import { useSearchParams } from 'next/navigation'
 import { ChatContext } from '@/context/chat/chatContext'
 import Messages from './Messages'
+import OnlineStatus from './OnlineStatus'
 
 type MessageAreaProps = {
     scrollContainer: MutableRefObject<null|HTMLDivElement>
@@ -19,7 +20,7 @@ type MessageAreaProps = {
 
 const MessageArea = ({scrollContainer, setShowChatArea}: MessageAreaProps) => {
 
-  const params = useSearchParams()
+  const params = useSearchParams()  
 
     const [showProfileDetails, setShowProfileDetails] = useState<boolean>(false)
 
@@ -52,7 +53,7 @@ const MessageArea = ({scrollContainer, setShowChatArea}: MessageAreaProps) => {
                 <div className='w-full flex items-center justify-between'>
                   <div  onClick={handleShowProfileDetails} className='flex flex-col w-full'>
                       <span className='capitalize text-white-txt'>{chat.state.name}</span>
-                      <span className='text-xs font-light text-read-msg'>last seen today at 09:23</span>
+                      <OnlineStatus userId={chat.state.userId} />
                   </div>
                   <div className='flex items-center'>
                     <button title='Search...' className='p-3'><AiOutlineSearch color='#8696A0' size={20} /></button>

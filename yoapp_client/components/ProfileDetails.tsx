@@ -10,7 +10,7 @@ const ProfileDetails = ({ userId, showProfileDetails, handleShowProfileDetails}:
     const { data } = useSuspenseQuery<any>(GET_USER, {
         variables: {userId}},
       )
-      console.log(data)
+
   return (
     showProfileDetails && 
     <div style={{transform: `${showProfileDetails ? 'translateX(0%)': 'translateX(110%)' }`}} className='absolute xl:relative z-10 top-0 right-0 w-full h-full xl:w-[600px] bg-dark-bg duration-300 ease-in-out'>

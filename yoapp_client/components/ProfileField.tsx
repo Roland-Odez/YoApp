@@ -66,13 +66,13 @@ const ProfileField = ({title, value, name}: {title: string, value: string, name:
           <input ref={inputRef} onFocus={() => setFocus(val => !val)} required autoComplete='off' type="text" disabled={!edit} name={name} placeholder={value} className='bg-transparent text-[17px] outline-none py-1 text-unread-msg w-full' />
           <div className='flex items-center gap-x-3'>
               <button style={{display: `${edit ? 'none': 'block'}`}} onClick={() => setEdit(val => !val)} className='outline-none'>
-                  <FaPen className='text-read-msg w-4 h-4' />
+                  <FaPen color='#8696A0' size={16} />
               </button>
               <button style={{display: `${edit ? 'block': 'none'}`}} className='outline-none'>
-                  <FaRegLaugh className='text-read-msg w-5 h-5' />
+                  <FaRegLaugh color='#8696A0' size={20} />
               </button>
               <button style={{display: `${edit ? 'block': 'none'}`}} onClick={handleUpdateUser} className='outline-none'>
-                  <FaCheck className='text-read-msg w-5 h-5' />
+                  <FaCheck color='#8696A0' size={20} />
               </button>
           </div>
       </div>
