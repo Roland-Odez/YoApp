@@ -6,6 +6,13 @@ import { ApolloWrapper } from '@/lib/ApolloWrapper';
 import UserContext from '@/context/user/UserContext';
 import NotifyContextProvider from '@/context/notification/notifyContext';
 import ChatContextProvider, { ChatContext } from '@/context/chat/chatContext';
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en'
+import ru from 'javascript-time-ago/locale/ru'
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(ru)
 
 const inter = Inter({ subsets: ['latin'] })
 
