@@ -19,7 +19,7 @@ const Notification = () => {
             <div className='bg-notifybg text-white-txt text-sm py-3 px-4 flex items-center gap-3 animate-moveNotifyUp duration-500 absolute bottom-5 lg:bottom-8 left-4 lg:left-10 font-[Segoe UI]'>
                 <span>{notify.state.message}</span>
                 <button>
-                <IoIosClose className='w-6 h-6' />
+                <IoIosClose size={24} />
                 </button>
             </div>
         )

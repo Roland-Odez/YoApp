@@ -4,10 +4,6 @@ import { BsCheck2, BsCheck2All } from 'react-icons/bs'
 import { IoTriangle } from "react-icons/io5";
 
 const SendMessage = (data: Message) => {
-
-    const msgStyle = {
-        color: data.read ? '#8696A0' : '#FFFFFF99'
-    }
   
   return (
       <div className='px-6 lg:px-10 xl:px-16 my-2 flex items-center justify-end'>
@@ -20,9 +16,9 @@ const SendMessage = (data: Message) => {
                     <span className='text-[10px] lg:text-sm font-light'>20:34</span>
                     {
                         data.read ? 
-                        <BsCheck2All style={msgStyle} />
+                        <BsCheck2All color={data.read ? '#8696A0' : '#FFFFFF99'} />
                         :
-                        <BsCheck2 style={msgStyle} />
+                        <BsCheck2 color={data.read ? '#8696A0' : '#FFFFFF99'} />
                     }
                 </div>
                 </section>

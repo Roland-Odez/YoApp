@@ -38,7 +38,7 @@ const StatusTab = ({ showStatus,handleShowStatus}: StatusState) => {
         <header className='bg-light-bg pt-14'>
             <div className='flex items-center gap-8 pl-4 pb-4'>
                 <button onClick={handleShowStatus} className='outline-none'>
-                    <HiArrowLeft className='text-white-txt w-6 h-6' />
+                    <HiArrowLeft color='#E9EDEF' size={24} />
                 </button>
                 <p className='text-lg text-white-txt font-semibold'>Status</p>
             </div>

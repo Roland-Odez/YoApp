@@ -13,7 +13,6 @@ const ChatArea = ({handleShowChatArea}: IProps) => {
       const { subscribeToMore, data } = useSuspenseQuery<any>(GET_USER_CHAT, {
         variables: {userId: state?.user?._id },
       })
-    console.log(data)
   return (
     <div>
         <Chats 

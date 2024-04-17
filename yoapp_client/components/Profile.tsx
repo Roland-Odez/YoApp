@@ -19,7 +19,7 @@ const Profile = ({showProfile, handleShowProfile, handleViewProfilePicture}: Pro
       <header className='bg-light-bg pt-14'>
           <div className='flex items-center gap-8 pl-4 pb-4'>
               <button onClick={handleShowProfile} className='outline-none'>
-                  <HiArrowLeft className='text-white-txt w-6 h-6' />
+                  <HiArrowLeft color='#E9EDEF' size={24} />
               </button>
               <p className='text-lg text-white-txt font-semibold'>Profile</p>
           </div>
@@ -33,7 +33,7 @@ const Profile = ({showProfile, handleShowProfile, handleViewProfilePicture}: Pro
                   <Image src='/default.jpg' className='w-full h-full object-cover z-0 absolute top-0 left-0' width={200} height={200} alt='profile image' />
                   <Image src={state.user.img} className='w-full h-full object-cover z-10 absolute left-0 top-0' width={200} height={200} alt='profile image' />
                   <button onClick={() => setOptions(val => !val)} className='absolute z-20 duration-150 change-picture opacity-0 bg-[#363738ab] top-0 left-0 w-full h-full gap-2 flex flex-col justify-center items-center'>
-                    <FaCamera className='text-white-txt w-6 h-6' />
+                    <FaCamera color='#E9EDEF' size={24} />
                     <p className='uppercase text-white-txt text-center text-sm'>change <br /> profile photo</p>
                   </button>
                 </div>

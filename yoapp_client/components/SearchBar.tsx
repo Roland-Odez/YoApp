@@ -39,7 +39,7 @@ const SearchBar = () => {
             <div className='flex items-center justify-between w-full'>
               <input ref={inputRef} type="text" className='w-full h-full text-white text-sm pl-5 bg-transparent outline-none' />
               <button onClick={clearInput} className='outline-none'>
-                <IoCloseOutline className='text-light-txt w-5 h-5' />
+                <IoCloseOutline color='#8696A0' size={20} />
               </button>
             </div>
           )
@@ -48,7 +48,7 @@ const SearchBar = () => {
         }
         </div>
         <button className='ml-2'>
-        <IoFilter className='text-light-txt w-5 h-5' />
+        <IoFilter color='#8696A0' size={20}/>
         </button>
     </div>
   )
