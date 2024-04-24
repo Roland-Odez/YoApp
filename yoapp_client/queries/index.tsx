@@ -45,6 +45,17 @@ export const SIGNUP_USER = gql`
     }
 `
 
+export const LOG_OUT_USER = gql`
+    mutation LogOut {
+        logOut {
+            _id,
+            email,
+            username,
+            about,
+            img
+        }
+    }
+`
 export const GET_USER_CHAT = gql`
     query GetChats($userId: String!) {
         getChats(userId: $userId) {
@@ -110,6 +121,23 @@ export const UPDATE_USER = gql`
                 }
             }
                 ... on FailedPayload {
+                text,
+                statusCode
+            }
+        }
+    }
+`
+export const UPDATE_USER_STATUS = gql`
+    mutation UpdateUserStatus($statusInput: StatusInput!) {
+        updateUserStatus(statusInput: $statusInput) {
+            ... on UserUpdatePayload {
+                user {
+                    _id,
+                    online,
+                    lastSeen
+                }
+            }
+            ... on FailedPayload {
                 text,
                 statusCode
             }
