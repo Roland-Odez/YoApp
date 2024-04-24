@@ -16,7 +16,7 @@ const Status = ({status, lastSeen, subscribeToMore}: {status: boolean, lastSeen:
 
     useEffect(() => subscribeToMore(), []);
     return (
-        <span className='text-xs font-light text-read-msg'>{false ? <span className='text-primary'>online</span> : <span>last seen <TimeAgo date={new Date(Number(lastSeen))} /></span>}</span>
+        <span className='text-xs font-light text-read-msg'>{status ? <span className='text-primary'>online</span> : <span>last seen <TimeAgo date={new Date(Number(lastSeen))} /></span>}</span>
     )
 }
 

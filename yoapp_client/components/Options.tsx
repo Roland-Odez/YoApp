@@ -2,9 +2,11 @@
 import { NotifyContext } from '@/context/notification/notifyContext'
 import { UserContext } from '@/context/user/UserContext'
 import { deleteUserProfileImage, uploadUserProfileImage } from '@/firebase/storage'
-import { UPDATE_USER } from '@/queries'
+import { LOG_OUT_USER, UPDATE_USER } from '@/queries'
 import { useMutation } from '@apollo/client'
 import React, { useContext, useEffect, useState } from 'react'
+import {useRouter} from 'next/navigation'
+
 type Props = {
   showOptions?: boolean,
   setOptions: (arg: boolean)=> void,
@@ -25,6 +27,8 @@ const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: P
          }
     }
   })
+  const [logOut, {error}] = useMutation(LOG_OUT_USER);
+  const router = useRouter()
   const {state, dispatch} = useContext(UserContext)
   const notify = useContext(NotifyContext)
   useEffect(() => setRender(true), [])
@@ -91,7 +95,14 @@ const Options = ({showOptions, options, setOptions, handleViewProfilePicture}: P
       handleViewProfilePicture?.call(this)
     }else if(arg === 'Log out'){
       notify.dispatch({type: 'On', payload: {message: 'signing out...'}})
-      dispatch({type: 'logout'})
+      const res = await logOut()
+      console.log(res)
+      if(!res) {
+        notify.dispatch({type: 'On', payload: {message: 'signing out failed'}})
+      }else{
+        dispatch({type: 'logout'})
+        router.push('/login')
+      }
     }
   }
 
