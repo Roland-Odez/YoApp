@@ -1,6 +1,5 @@
 'use client'
 import {useState, useEffect, useRef, useContext, Suspense} from 'react'
-import {useRouter} from 'next/navigation'
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import GroupTab from '@/components/GroupTab';
@@ -13,6 +12,7 @@ import { UserContext } from '@/context/user/UserContext';
 import Notification from '@/components/Notification';
 import ChatArea from '@/components/ChatArea';
 import { ChatSkeleton } from '@/components/ChatSkeleton';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 export default function Home({
   params,
@@ -30,8 +30,7 @@ const [showStatus, setShowStatus] = useState<boolean>(false)
 const [showNewChat, setShowNewChat] = useState<boolean>(false)
 const [showChatArea, setShowChatArea] = useState<boolean>(false)
 const scrollContainer = useRef<HTMLDivElement>(null)
-
-const router = useRouter()
+const online = useOnlineStatus()
 
 const handleShowProfile = () => {
   setShowProfile(val => !val);
