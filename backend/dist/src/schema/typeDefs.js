@@ -26,7 +26,7 @@ export const typeDefs = `#graphql
   }
 
   input StatusInput {
-    online: String!
+    online: Boolean!
   }
 
   input usersId {
@@ -107,5 +107,6 @@ export const typeDefs = `#graphql
     logIn(loginInput: LoginInput!): LoginResult
     updateUser(updateInput: UpdateInput!): UserUpdateResult
     updateUserStatus(statusInput: StatusInput!): UserUpdateResult
+    logOut: User
   }
 `;

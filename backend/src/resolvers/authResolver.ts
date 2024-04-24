@@ -4,6 +4,13 @@ import { userModel } from "../schema/userShema.js";
 import { validateCredentials } from "../utils/Validators.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
+import { pubsub } from "../pubsub.js";
+import { ObjectId } from "mongodb";
+
+const topicName3 = 'STATUS_CHANGED';
+async function publishOnlineStatus(arg: any) {
+  pubsub.publish(topicName3, {...arg})
+}
 
 export const logIn = async (_: any, {loginInput}: {loginInput: LoginInput}) => {
     try {
@@ -26,13 +33,14 @@ export const logIn = async (_: any, {loginInput}: {loginInput: LoginInput}) => {
       const match = await bcrypt.compare(password, user.password);
 
       if(!match) throw new Error(JSON.stringify({text: 'wrong password', statusCode: 400}))
-
+      
       const token = jwt.sign({email: user.email, id: user._id}, process.env.JWT_SECRETE, { expiresIn: '3d' });
-
+      const updatedUser = await usersDB.findOneAndUpdate({_id: user._id}, { $set: { online: true, lastSeen: Date.now()}}, { returnDocument: 'after' } )
+      publishOnlineStatus(updatedUser)
       await client.close();
       return {
         token,
-        user
+        user: updatedUser
       }
     } catch (error) {
       return JSON.parse(error)
@@ -96,3 +104,25 @@ export const signUp = async (_: any, {signupInput}: {signupInput: SignUpInput}) 
 
 
   }
+
+export const logOut = async (_:any, __:any, context: any) => {
+  if(context.message) throw new Error(JSON.stringify({text: context.message, statusCode: 401}));
+  const {user} = context;
+
+  try {
+    await client.connect();
+    const database = client.db("yoapp");
+    const usersDB = database.collection("users"); 
+    const updatedUser = await usersDB.findOneAndUpdate({_id: new ObjectId(user.id)}, { $set: { online: false, lastSeen: Date.now()}}, { returnDocument: 'after' } )
+
+    if(updatedUser){
+      publishOnlineStatus(updatedUser)
+      return {...updatedUser}
+    }else{
+      throw new Error(JSON.stringify({text: 'update failed', statusCode: 500}))
+    }
+
+  } catch (error) {
+    return JSON.parse(error)
+  }
+}

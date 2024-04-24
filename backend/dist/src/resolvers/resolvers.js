@@ -1,7 +1,7 @@
-import { logIn, signUp } from './authResolver.js';
+import { logIn, logOut, signUp } from './authResolver.js';
 import { createMessage, getMessages, getUnreadMessageCount } from './messageResolver.js';
 import { updateUser, getChats, getUser, updateUserStatus } from './userResolver.js';
-import { messageAdded, userChats } from './subscription.js';
+import { messageAdded, statusChanged, userChats } from './subscription.js';
 export const resolvers = {
     Query: {
         getMessages,
@@ -11,14 +11,16 @@ export const resolvers = {
     },
     Subscription: {
         messageAdded,
-        userChats
+        userChats,
+        statusChanged
     },
     Mutation: {
         createMessage,
         signUp,
         logIn,
         updateUser,
-        updateUserStatus
+        updateUserStatus,
+        logOut
     },
     SignUpResult: {
         __resolveType(obj, contextValue, info) {

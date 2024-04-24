@@ -113,10 +113,9 @@ export const getUser = async (_:any, {userId}:{userId: string}, context: any) =>
   }
 }
 
-export const updateUserStatus = async (_:any, {statusInput}:{statusInput: {online: string}}, context: any) => {
+export const updateUserStatus = async (_:any, {statusInput}:{statusInput: {online: boolean}}, context: any) => {
   if(context.message) throw new Error(JSON.stringify({text: context.message, statusCode: 401}));
   const {online} = statusInput
-  if(online === '') throw new Error(JSON.stringify({text: 'input empty', statusCode: 400}))
   const {user} = context;
   try {
     await client.connect();
