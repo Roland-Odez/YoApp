@@ -6,7 +6,7 @@ import ProfileField from './ProfileField';
 import { UserContext } from '@/context/user/UserContext';
 import { useContext, useState } from 'react';
 import { FaCamera } from "react-icons/fa";
-import Options from './Options';
+import Options from '../Options';
 
 const options = ['View photo', 'Take Photo', 'Upload photo', 'Remove photo']
 

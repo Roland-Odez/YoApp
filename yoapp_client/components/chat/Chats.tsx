@@ -4,8 +4,8 @@ import { ChatState, Chats as UserChat } from '@/types/type';
 import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import { BsCheck2, BsCheck2All } from "react-icons/bs";
-import ChatDate from '@/components/ChatDate';
-import Count from '@/components/Count';
+import ChatDate from '@/components/chat/ChatDate';
+import Count from '@/components/chat/Count';
 import { ChatContext } from '@/context/chat/chatContext';
 
   export type ChatProps = {

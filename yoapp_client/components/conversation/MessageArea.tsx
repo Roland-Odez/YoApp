@@ -3,15 +3,15 @@ import React, { MutableRefObject, useContext, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { HiArrowLeft } from 'react-icons/hi2'
 import { SlOptionsVertical } from 'react-icons/sl'
-import Keyboard from './Keyboard'
-import ProfileDetails from './ProfileDetails'
+import Keyboard from '../Keyboard'
+import ProfileDetails from '../profile/ProfileDetails'
 import { UserContext } from '@/context/user/UserContext'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_CHAT_MESSAGES, MESSAGE_SUBSCRIPTION } from '@/queries'
 import { useSearchParams } from 'next/navigation'
 import { ChatContext } from '@/context/chat/chatContext'
 import Messages from './Messages'
-import OnlineStatus from './OnlineStatus'
+import OnlineStatus from '../OnlineStatus'
 
 type MessageAreaProps = {
     scrollContainer: MutableRefObject<null|HTMLDivElement>

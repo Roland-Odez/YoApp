@@ -2,16 +2,16 @@
 import {useState, useEffect, useRef, useContext, Suspense} from 'react'
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
-import GroupTab from '@/components/GroupTab';
-import StatusTab from '@/components/StatusTab';
-import NewChat from '@/components/NewChat';
-import Profile from '@/components/Profile';
-import MessageArea from '@/components/MessageArea';
-import ViewProfilePicture from '@/components/ViewProfilePicture';
+import GroupTab from '@/components/group/GroupTab';
+import StatusTab from '@/components/status/StatusTab';
+import NewChat from '@/components/chat/NewChat';
+import Profile from '@/components/profile/Profile';
+import MessageArea from '@/components/conversation/MessageArea';
+import ViewProfilePicture from '@/components/profile/ViewProfilePicture';
 import { UserContext } from '@/context/user/UserContext';
 import Notification from '@/components/Notification';
-import ChatArea from '@/components/ChatArea';
-import { ChatSkeleton } from '@/components/ChatSkeleton';
+import ChatArea from '@/components/chat/ChatArea';
+import { ChatSkeleton } from '@/components/chat/ChatSkeleton';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 export default function Home({
