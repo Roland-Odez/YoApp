@@ -32,10 +32,10 @@ const MessageArea = ({scrollContainer, setShowChatArea}: MessageAreaProps) => {
       const {state} = useContext(UserContext)
       const chat = useContext(ChatContext)
       const { subscribeToMore, data } = useSuspenseQuery<any>(GET_CHAT_MESSAGES, {
-        variables: {usersId: {sender: state?.user?._id, reciever: chat.state.userId }},
+        variables: {usersId: {sender: state?.user?._id, reciever: chat.state?.userId }},
       })
 
-
+console.log(data)
   return (
     <section className='w-full h-full absolute z-10 xl:relative flex items-center duration-300'>
         <>
@@ -53,7 +53,7 @@ const MessageArea = ({scrollContainer, setShowChatArea}: MessageAreaProps) => {
                 <div className='w-full flex items-center justify-between'>
                   <div  onClick={handleShowProfileDetails} className='flex flex-col w-full'>
                       <span className='capitalize text-white-txt'>{chat.state.name}</span>
-                      <OnlineStatus userId={chat.state.userId} />
+                      {/* <OnlineStatus userId={chat.state.userId} /> */}
                   </div>
                   <div className='flex items-center'>
                     <button title='Search...' className='p-3'><AiOutlineSearch color='#8696A0' size={20} /></button>
@@ -66,17 +66,21 @@ const MessageArea = ({scrollContainer, setShowChatArea}: MessageAreaProps) => {
                 <div ref={scrollContainer} className='overflow-y-auto py-2 hover:on-scrollbar'>
                   <Messages
                     data={data.getMessages}
-                    subscribeToNewMessage={subscribeToMore({
-                      document: MESSAGE_SUBSCRIPTION,
-                      variables: {usersId: {sender: state?.user?._id, reciever: chat.state.userId }},
-                      updateQuery: (prev, { subscriptionData }: any) => {
-                        if (!subscriptionData.data) return prev;
-                        const newFeedItem = subscriptionData.data.getMessages;
-                        return {
-                          getMessages: newFeedItem
-                        };
-                      }
-                    })}
+                    subscribeToNewMessage={
+                      // subscribeToMore({
+                      //   document: MESSAGE_SUBSCRIPTION,
+                      //   variables: {usersId: {sender: state?.user?._id, reciever: chat.state.userId }},
+                      //   updateQuery: (prev, { subscriptionData }: any) => {
+                      //     if (!subscriptionData.data) return prev;
+                      //     const newFeedItem = subscriptionData.data.messageAdded;
+                      //     console.log('running...........')
+                      //     return {
+                      //       getMessagess: newFeedItem
+                      //     };
+                      //   }
+                      // })
+                      () => console.log('running')
+                    }
                   />
                 </div>
               </div>

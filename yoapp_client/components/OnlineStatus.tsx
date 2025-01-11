@@ -13,10 +13,12 @@ interface Iprops {
 const Status = ({status, lastSeen, subscribeToMore}: {status: boolean, lastSeen: Date, subscribeToMore: () => any}) => {
 
   const { TimeAgo } = useTimeAgo();
+  const date = Number(lastSeen)
+  console.log('date', lastSeen, status)
 
     useEffect(() => subscribeToMore(), []);
     return (
-        <span className='text-xs font-light text-read-msg'>{status ? <span className='text-primary'>online</span> : <span>last seen <TimeAgo date={new Date(Number(lastSeen))} /></span>}</span>
+        <span className='text-xs font-light text-read-msg'>{status ? <span className='text-primary'>online</span> : <span>last seen <TimeAgo date={new Date(date)} /></span>}</span>
     )
 }
 
@@ -25,21 +27,25 @@ const OnlineStatus = ({userId}: Iprops) => {
     const { subscribeToMore, data } = useSuspenseQuery<any>(GET_USER_STATUS, {
         variables: {userId},
       })
+      console.log('get user',data.getUser)
   return (
     <Status 
-        status={data.getUser.online}
+        status={data.getUser?.online}
         lastSeen={data.getUser?.lastSeen}
-        subscribeToMore={subscribeToMore({
-            document: STATUS_SUBSCRIPTION,
-            variables: {userId: state.user._id},
-            updateQuery: (prev, { subscriptionData }: any) => {
-              if (!subscriptionData.data) return prev;
-              const newFeedItem = subscriptionData.data.getUser;
-              return {
-                getUser: newFeedItem
-              };
-            }
-          })}
+        subscribeToMore={
+          // subscribeToMore({
+          //   document: STATUS_SUBSCRIPTION,
+          //   variables: {userId: state.user._id},
+          //   updateQuery: (prev, { subscriptionData }: any) => {
+          //     if (!subscriptionData.data) return prev;
+          //     const newFeedItem = subscriptionData.data.statusChanged;
+          //     return {
+          //       getUsers: newFeedItem
+          //     };
+          //   }
+          // })
+          () => console.log('running')
+        }
     />
   )
 }

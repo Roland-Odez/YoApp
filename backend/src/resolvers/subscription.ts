@@ -28,7 +28,7 @@ export const statusChanged =  {
       return pubsub.subscribe(topicName3);
     }, (payload, variables) => {
       console.log(payload)
-      return payload.friends.includes(variables.user)
+      return payload.friends.includes(variables.userId)
     })
 }
 

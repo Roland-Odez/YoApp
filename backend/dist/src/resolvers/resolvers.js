@@ -1,13 +1,13 @@
 import { logIn, logOut, signUp } from './authResolver.js';
-import { createMessage, getMessages, getUnreadMessageCount } from './messageResolver.js';
+import { createMessage, getMessages, getUnreadMessageCount, readMessages } from './messageResolver.js';
 import { updateUser, getChats, getUser, updateUserStatus } from './userResolver.js';
 import { messageAdded, statusChanged, userChats } from './subscription.js';
 export const resolvers = {
     Query: {
         getMessages,
         getChats,
-        getUnreadMessageCount,
-        getUser
+        getUser,
+        getUnreadMessageCount
     },
     Subscription: {
         messageAdded,
@@ -20,7 +20,8 @@ export const resolvers = {
         logIn,
         updateUser,
         updateUserStatus,
-        logOut
+        logOut,
+        readMessages
     },
     SignUpResult: {
         __resolveType(obj, contextValue, info) {

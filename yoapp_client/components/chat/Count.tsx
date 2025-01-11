@@ -12,7 +12,7 @@ const Count = ({id}: {id: string}) => {
   return (
     <>
       {
-        data && (
+        data?.getUnreadMessageCount[0]?.totalUnread && (
           <span className='text-sm min-w-[19px] min-h-[19px] text-center bg-primary text-black rounded-full px-1'>
             <div>{data?.getUnreadMessageCount[0]?.totalUnread}</div>
           </span>

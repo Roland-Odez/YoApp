@@ -86,7 +86,7 @@ export const CHAT_SUBSCRIPTION = gql`
 
 export const MESSAGE_SUBSCRIPTION = gql`
     subscription MessageAdded($usersId: usersId!) {
-        messageAdded(usersId: $userId) {
+        messageAdded(usersId: $usersId) {
             _id
             message
             name
@@ -99,7 +99,7 @@ export const MESSAGE_SUBSCRIPTION = gql`
 `
 
 export const STATUS_SUBSCRIPTION = gql`
-    subscription StatusChanged($userId: userId!) {
+    subscription StatusChanged($userId: String!) {
         statusChanged(userId: $userId) {
             lastSeen
             online
@@ -144,6 +144,12 @@ export const UPDATE_USER_STATUS = gql`
         }
     }
 `
+export const READ_MESSAGES = gql`
+    mutation ReadMessages($usersId: usersId!) {
+        readMessages(usersId: $usersId)
+    }
+`
+
 export const GET_UNREAD_MESSAGE_COUNT = gql`
     query Query($usersId: usersId!) {
         getUnreadMessageCount(usersId: $usersId){

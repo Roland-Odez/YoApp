@@ -60,7 +60,7 @@ const LoginField = ({name, type, title, handleInput}: LoginProps) => {
         }
         {
           type === 'password' && 
-          <div style={{backgroundColor: focus ? 'rgb(30,41,59)' : 'transparent'}} className='flex h-full py-[0.4rem] items-center gap-x-3 px-2'>
+          <div style={{backgroundColor: focus ? 'rgb(30,41,59)' : 'transparent'}} className='flex h-full py-[0.4rem] items-center gap-x-3 px-2 float-right'>
             {
               textPassword === 'password' ?
               <button onClick={() => setTextPassword('text')} className='outline-none'>

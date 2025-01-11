@@ -54,7 +54,7 @@ export const typeDefs = `#graphql
   }
 
   type Subscription {
-    messageAdded(usersId: usersId!): MessagePayload
+    messageAdded(usersId: usersId!): SubscriptionMessage
     userChats(userId: String!): [ChatPayload]
     statusChanged(userId: String!): User
   }
@@ -91,6 +91,16 @@ export const typeDefs = `#graphql
     read: Boolean
   }
 
+  type SubscriptionMessage {
+    _id: ID!
+    userId: ID!
+    message: String
+    timeStamp: String
+    img: String
+    name: String
+    read: Boolean
+  }
+
   type LoginSignUpPayload {
     token: String
     user: User
@@ -108,5 +118,6 @@ export const typeDefs = `#graphql
     updateUser(updateInput: UpdateInput!): UserUpdateResult
     updateUserStatus(statusInput: StatusInput!): UserUpdateResult
     logOut: User
+    readMessages(usersId: usersId!): Boolean
   }
 `;

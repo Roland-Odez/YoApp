@@ -16,57 +16,58 @@ export const getChats = async (_: any, args: any, context: any) => {
     await client.connect();
     const database = client.db("yoapp");
     const msgDb = database.collection("chatMessages");
-  const aggregate = await msgDb.aggregate([
-    { $match: { $or: [{ "reciever": userId }, { "sender": userId }] } },
-    { $sort: { timestamp: -1 } },
-    {
-      $group: {
-        _id: {
-          $cond: [
-            { $eq: ["$sender", userId] }, // If sender is your ID, group by receiver
-            "$reciever",
-            "$sender" // Otherwise, group by sender
-          ]
-        },
-        chat: { $first: "$$ROOT" } // Select the first (latest) message in each group
-      }
-    },
-    {
-      $lookup: {
-        from: "users",
-        let: { sender: "$chat.sender", reciever: "$chat.reciever" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [
-                  { $ne: ["$_id", userId] }, // Match documents where _id is not equal to userId
-                  { $or: [
-                    { $eq: ["$_id", "$$sender"] }, // Join on sender field
-                    { $eq: ["$_id", "$$reciever"] } // Join on receiver field
-                  ]}
-                ]  
-              }
-            }
+    const aggregate = await msgDb.aggregate([
+      { $match: { $or: [{ "reciever": userId }, { "sender": userId }] } },
+      { $sort: { timestamp: -1 } },
+      {
+        $group: {
+          _id: {
+            $cond: [
+              { $eq: ["$sender", userId] }, // If sender is your ID, group by receiver
+              "$reciever",
+              "$sender" // Otherwise, group by sender
+            ]
           },
-        ],
-        as: "user"
+          chat: { $first: "$$ROOT" } // Select the first (latest) message in each group
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          let: { sender: "$chat.sender", reciever: "$chat.reciever" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $ne: ["$_id", userId] }, // Match documents where _id is not equal to userId
+                    { $or: [
+                      { $eq: ["$_id", "$$sender"] }, // Join on sender field
+                      { $eq: ["$_id", "$$reciever"] } // Join on receiver field
+                    ]}
+                  ]  
+                }
+              }
+            },
+          ],
+          as: "user"
+        }
+      },
+      { $unwind: "$user" }, // Optionally unwind the users array if needed
+      {
+        $project: {
+          _id: 1,
+          timeStamp: '$chat.timestamp',
+          read: '$chat.read',
+          message: '$chat.message',
+          img: '$user.img',
+          name: '$user.username',
+          userId: '$user._id'
+        }
       }
-    },
-    { $unwind: "$user" }, // Optionally unwind the users array if needed
-    {
-      $project: {
-        _id: 1,
-        timeStamp: '$chat.timestamp',
-        read: '$chat.read',
-        message: '$chat.message',
-        img: '$user.img',
-        name: '$user.username',
-        userId: '$user._id'
-      }
-    }
-  ]).toArray();
-      return aggregate.sort((item1, item2) => item2.timeStamp - item1.timeStamp)
+    ]).toArray();
+    await client.close();
+    return aggregate.sort((item1, item2) => item2.timeStamp - item1.timeStamp)
   } catch (error) {
     console.log(error)
   }

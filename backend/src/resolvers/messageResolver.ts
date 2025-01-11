@@ -16,12 +16,11 @@ async function publishChat(arg: any) {
 
 export const getMessages =  async (_: any, args: any) => {
   const userIds = [new ObjectId(args.usersId.reciever), new ObjectId(args.usersId.sender)]
-  
   try {
     await client.connect();
     const database = client.db("yoapp");
     const msgDb = database.collection("chatMessages");
-    const messages = msgDb.aggregate([
+    const messages = await msgDb.aggregate([
       {
         $sort: {
           timestamp: 1
@@ -33,8 +32,8 @@ export const getMessages =  async (_: any, args: any) => {
           reciever: { $in: userIds }
         }
       }
-    ])
-    return await messages.toArray()
+    ]).toArray()
+    return messages
   } catch (error) {
     console.log(error)
   }
@@ -108,3 +107,26 @@ export const createMessage =  async (_: any, {messageInput}: {messageInput: Mess
       return {text: error, statusCode: 401}
     }
   }
+
+export const readMessages = async (_: any, args: any, context: any) => {
+  const userIds = [new ObjectId(args.usersId.reciever), new ObjectId(args.usersId.sender)]
+  
+    try {
+      await client.connect();
+      const database = client.db("yoapp");
+      const msgDb = database.collection("chatMessages");
+      const result = await msgDb.updateMany(
+        {
+          read: false,
+          sender: { $in: userIds },
+          reciever: { $in: userIds }
+        },
+        {$set: {read: true}}
+      )
+      if(!result) throw new Error(JSON.stringify({text: 'message not read', statusCode: 400}))
+      await client.close()
+      return !!result
+    } catch (error) {
+      return {text: error.text, statusCode: error.statusCode}
+    }
+}

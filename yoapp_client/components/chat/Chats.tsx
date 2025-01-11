@@ -7,6 +7,9 @@ import { BsCheck2, BsCheck2All } from "react-icons/bs";
 import ChatDate from '@/components/chat/ChatDate';
 import Count from '@/components/chat/Count';
 import { ChatContext } from '@/context/chat/chatContext';
+import { UserContext } from '@/context/user/UserContext';
+import { useMutation } from '@apollo/client';
+import { READ_MESSAGES } from '@/queries';
 
   export type ChatProps = {
     handleShowChatArea:()=> void,
@@ -17,11 +20,13 @@ import { ChatContext } from '@/context/chat/chatContext';
 const Chats = ({handleShowChatArea, data, subscribeToNewChat}: ChatProps) => {
 
   const {dispatch} = useContext(ChatContext)
-  
+  const {state} = useContext(UserContext)
+  const [readMessages] = useMutation(READ_MESSAGES)
   useEffect(() => subscribeToNewChat(), []);
   const clickChat = ({name,img,userId}: ChatState) => {
-    handleShowChatArea()
     dispatch({type: 'open', payload: {name,img,userId}})
+    handleShowChatArea()
+    // readMessages({variables: {usersId: {sender: state?.user?._id, reciever: userId }}})
   }
   return (
     <main className='max-h-[calc(100%-110px)] overflow-y-auto overflow-x-hidden hover:on-scrollbar no-scrollbar duration-700'>

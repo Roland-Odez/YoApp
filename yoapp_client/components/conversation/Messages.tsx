@@ -11,7 +11,7 @@ export type MessageProps = {
 
 const Messages = ({data, subscribeToNewMessage}: MessageProps) => {
     const {state} = useContext(UserContext)
-    useEffect(() => subscribeToNewMessage(), []);
+    // useEffect(() => subscribeToNewMessage(), []);
   return (
     <>
         {
